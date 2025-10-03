@@ -1,0 +1,35 @@
+{
+  "name": "robotum-frontend",
+  "version": "1.0.0",
+  "description": "Frontend codebase for RoboTUM — a student-led robotics club. Built with React + Tailwind CSS. Designed to be fast, modular, and easy to scale.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ermawqa/robotum-frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ermawqa/robotum-frontend/issues"
+  },
+  "homepage": "https://github.com/ermawqa/robotum-frontend#readme",
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.14",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.14",
+    "vite": "^5.4.10"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
