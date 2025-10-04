@@ -1,4 +1,5 @@
 @import "tailwindcss";
 
-/* optional custom global styles below */
-/* e.g. body { font-family: system-ui, sans-serif; } */
+body {
+  font-family: 'Exo', system-ui, sans-serif;
+}

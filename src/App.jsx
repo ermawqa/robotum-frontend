@@ -1,11 +1,11 @@
-import HeroSection from './components/sections/HeroSection';
+import Home from './pages/Home';
 
 function App() {
-  return (
-    <>
-      <HeroSection />
-    </>
-  );
+    return (
+        <>
+            <Home />
+        </>
+    );
 }
 
 export default App;
