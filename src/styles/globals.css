@@ -1,7 +1,4 @@
 @import "tailwindcss";
 
-/* your global styles below */
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* optional custom global styles below */
+/* e.g. body { font-family: system-ui, sans-serif; } */
