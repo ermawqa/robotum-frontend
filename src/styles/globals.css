@@ -3,3 +3,12 @@
 body {
   font-family: 'Exo', system-ui, sans-serif;
 }
+
+.navbar-gradient {
+  background-color: #000C21; 
+  background-image: radial-gradient(
+    circle at 20% 50%,
+    rgba(0,49,135,0.70) 0%,
+    #000C21 60%
+  );
+}

@@ -14,7 +14,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="w-full bg-gray-900 text-white fixed top-0 z-50 shadow font-exo">
+    <nav className="navbar-gradient w-full text-white fixed top-0 z-50 shadow font-exo">
       <div className="mx-auto max-w-7xl px-4 flex items-center justify-between h-16">
         <a href="#" className="flex items-center">
           <img
