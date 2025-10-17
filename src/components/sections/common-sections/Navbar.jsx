@@ -2,8 +2,8 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import * as assets from '../../../assets'
 
 const links = [
-  { label: 'Home', href: '#' },
-  { label: 'About us', href: '#about' },
+  { label: 'Home', href: '/' },
+  { label: 'About us', href: '/about' },
   { label: 'Join us', href: '#join' },
   { label: 'Events', href: '#events' },
   {
