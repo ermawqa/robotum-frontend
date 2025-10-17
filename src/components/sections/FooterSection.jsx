@@ -39,7 +39,7 @@ export default function FooterSection() {
         {/* Follow Us */}
         <div>
           <h3 className="font-semibold text-lg mb-3">Follow us</h3>
-          <div className="flex gap-4 mt-2 bg-[#001833] p-4 rounded-md">
+          <div className="flex gap-4 mt-2 bg-[#000C21] p-4 rounded-md">
             <a href="#" className="hover:opacity-80">
               <img src={assets.instagramIcon} alt="Instagram" className="h-6 w-6" />
             </a>

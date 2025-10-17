@@ -4,7 +4,8 @@ const sponsors = [
     { name: 'LIMX Dynamics', image: assets.limx, tier: 'Lead Sponsor' },
     { name: 'Maxon', image: assets.maxon, tier: 'Lead Sponsor' },
     { name: 'Reply Roboverse', image: assets.reply, tier: 'Lead Sponsor' },
-    { name: 'CubeMars', image: assets.cubemars, tier: 'Sponsor' }
+    { name: 'CubeMars', image: assets.cubemars, tier: 'Sponsor' },
+    { name: 'Olive Robotics', image: assets.olive, tier: 'Sponsor' }
 ]
 
 export default function PartnersSection() {

@@ -57,39 +57,43 @@ export default function ProjectSection() {
     >
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
         {/* Left side */}
-        <div className="md:w-1/2">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            {projects[current].title}
-          </h2>
-          <p className="text-lg text-sky-100 mb-8">
-            {projects[current].description}
-          </p>
-          <a
-            href={projects[current].link}
-            className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-md text-white text-[15px] transition-colors"
-          >
-            View more →
-          </a>
+        <div className="md:w-1/2 relative min-h-[320px]">
+          <div key={current} className="absolute inset-0 transition-opacity duration-500 ease-in-out opacity-100">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              {projects[current].title}
+            </h2>
+            <p className="text-lg text-sky-100 mb-8">
+              {projects[current].description}
+            </p>
+            <a
+              href={projects[current].link}
+              className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-md text-white text-[15px]"
+            >
+              View more →
+            </a>
+          </div>
         </div>
 
         {/* Right side */}
         <div className="md:w-1/2 relative">
-          <img
-            src={projects[current].image}
-            alt={projects[current].title}
-            className="rounded-lg w-full max-w-md mx-auto shadow-lg border border-white/10"
-          />
+          <div className="transition-all duration-500 ease-in-out">
+            <img
+              src={projects[current].image}
+              alt={projects[current].title}
+              className="rounded-lg w-full max-w-md mx-auto shadow-lg border border-white/10"
+            />
+          </div>
           <button
             onClick={prevProject}
             aria-label="Previous project"
-            className="absolute -left-5 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-full"
+            className="cursor-pointer absolute -left-5 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-full transition-all"
           >
             ←
           </button>
           <button
             onClick={nextProject}
             aria-label="Next project"
-            className="absolute -right-5 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-full"
+            className="cursor-pointer absolute -right-5 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-full transition-all"
           >
             →
           </button>
