@@ -40,14 +40,40 @@ export default function FooterSection() {
         <div>
           <h3 className="font-semibold text-lg mb-3">Follow us</h3>
           <div className="flex gap-4 mt-2 bg-[#000C21] p-4 rounded-md">
-            <a href="#" className="hover:opacity-80">
+            <a
+              href="https://www.instagram.com/therobotum/"
+              className="hover:opacity-80"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img src={assets.instagramIcon} alt="Instagram" className="h-6 w-6" />
             </a>
-            <a href="#" className="hover:opacity-80">
+
+            <a
+              href="https://www.linkedin.com/company/therobotum"
+              className="hover:opacity-80"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img src={assets.linkedinIcon} alt="LinkedIn" className="h-6 w-6" />
             </a>
-            <a href="mailto:example@robotum.com" className="hover:opacity-80">
-              <img src={assets.emailIcon} alt="Email" className="h-6 w-6" />
+
+            <a
+              href="https://chat.whatsapp.com/BZVTC6IfYwkFSvRfkJhn5e"
+              className="hover:opacity-80"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={assets.whatsappIcon} alt="WhatsApp" className="h-6 w-6 filter invert" />
+            </a>
+
+            <a
+              href="https://t.me/theRoboTUM"
+              className="hover:opacity-80"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={assets.telegramIcon} alt="Telegram" className="h-6 w-6 filter invert" />
             </a>
           </div>
         </div>

@@ -2,6 +2,9 @@
 export { default as instagramIcon } from './icons/instagram.svg'
 export { default as linkedinIcon } from './icons/linkedin.svg'
 export { default as emailIcon } from './icons/email.svg'
+export { default as whatsappIcon } from './icons/whatsapp.svg'
+export { default as telegramIcon } from './icons/telegram.png'
+
 
 // General images
 export { default as speakerImg } from './images/speaker.png'
