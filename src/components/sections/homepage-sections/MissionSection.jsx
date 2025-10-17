@@ -1,3 +1,4 @@
+import * as assets from '../../../assets'
 
 export default function MissionSection() {
   return (
@@ -6,7 +7,7 @@ export default function MissionSection() {
         <h2 className="text-4xl sm:text-5xl font-bold leading-tight mb-16">
           We are a student initiative <br />
           formed of robotic <br />
-          enthusiasts.
+          enthusiasts
         </h2>
 
         <div className="bg-[#E5F0FF] text-[#000C21] rounded-xl p-10 grid grid-cols-1 md:grid-cols-2 gap-8">

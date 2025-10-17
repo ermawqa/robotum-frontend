@@ -1,4 +1,4 @@
-import navLogo from '../../assets/images/robotum-logo-blue-white.svg'
+import * as assets from '../../../assets'
 
 export default function HeroSection() {
   return (
@@ -14,16 +14,13 @@ export default function HeroSection() {
       <div className="relative z-20 flex flex-col justify-center items-center text-center px-6 py-24 min-h-screen max-w-4xl mx-auto font-exo">
         {/* Logo */}
         <img
-          src={navLogo}
+          src={assets.navLogo}
           alt="RoboTUM logo"
           className="w-[220px] h-auto mb-8 drop-shadow-md"
         />
         <h1 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight text-sky-50 drop-shadow-lg">
           Shaping the Future of Robotics
         </h1>
-        <p className="mt-6 text-lg md:text-xl text-sky-100 max-w-2xl">
-          We are a student initiative formed of robotic enthusiasts.
-        </p>
 
         {/* Buttons */}
         <div className="mt-10 flex flex-col sm:flex-row gap-4 sm:gap-6">

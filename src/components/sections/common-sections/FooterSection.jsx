@@ -1,5 +1,4 @@
-import logo from '../../assets/images/robotum-logo-blue-white.svg'
-import * as assets from '../../assets'
+import * as assets from '../../../assets'
 
 export default function FooterSection() {
   return (

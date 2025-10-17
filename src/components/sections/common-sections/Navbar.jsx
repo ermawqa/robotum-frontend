@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import * as assets from '../../assets'
+import * as assets from '../../../assets'
 
 const links = [
   { label: 'Home', href: '#' },

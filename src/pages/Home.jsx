@@ -1,11 +1,12 @@
-import HeroSection from '../components/sections/HeroSection';
-import Navbar from '../components/sections/Navbar';
-import ProjectSection from '../components/sections/ProjectSection';
-import EventSection from '../components/sections/EventSection';
-import JoinUsSection from '../components/sections/JoinUsSection';
-import PartnersSection from '../components/sections/PartnersSection';
-import FooterSection from '../components/sections/FooterSection';
-import MissionSection from '../components/sections/MissionSection';
+import Navbar from '../components/sections/common-sections/Navbar';
+import FooterSection from '../components/sections/common-sections/FooterSection';
+
+import HeroSection from '../components/sections/homepage-sections/HeroSection';
+import ProjectSection from '../components/sections/homepage-sections/ProjectSection';
+import EventSection from '../components/sections/homepage-sections/EventSection';
+import JoinUsSection from '../components/sections/homepage-sections/JoinUsSection';
+import PartnersSection from '../components/sections/homepage-sections/PartnersSection';
+import MissionSection from '../components/sections/homepage-sections/MissionSection';
 
 export default function Home() {
     return (

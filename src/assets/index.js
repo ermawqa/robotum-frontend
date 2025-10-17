@@ -11,6 +11,7 @@ export { default as speakerImg } from './images/speaker.png'
 export { default as navLogo } from './images/robotum-logo-blue-white.svg'
 export { default as memberImg } from './images/foundations-team.jpg'
 export { default as partnerImg } from './images/foundations-team.jpg' 
+export { default as logo } from './images/robotum-logo-blue-white.svg'
 
 // Partners 
 export { default as ansys } from './images/partners/ansys.png'
@@ -28,4 +29,3 @@ export { default as creativeRobotics } from './images/projects/creative-robotics
 export { default as itqPlastix } from './images/projects/itq-plastix-project.png'
 export { default as replyProject } from './images/projects/reply-project.png'
 export { default as websiteDevelopment } from './images/projects/website-development-project.png'
-

@@ -1,4 +1,4 @@
-import * as assets from '../../assets'
+import * as assets from '../../../assets'
 
 const sponsors = [
     { name: 'LIMX Dynamics', image: assets.limx, tier: 'Lead Sponsor' },

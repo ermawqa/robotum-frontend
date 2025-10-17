@@ -1,4 +1,4 @@
-import * as assets from '../../assets'
+import * as assets from '../../../assets'
 
 export default function JoinUsSection() {
   return (
