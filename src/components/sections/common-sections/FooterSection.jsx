@@ -7,7 +7,7 @@ export default function FooterSection() {
 
         {/* Logo and Description */}
         <div className="flex flex-col gap-4">
-          <img src={logo} alt="RoboTUM Logo" className="h-10" />
+          <img src={assets.logo} alt="RoboTUM Logo" className="h-10" />
           <p className="text-gray-400 text-sm">
             RoboTUM is a student-driven robotics club exploring AI, design, and engineering to push the limits of autonomous systems.
           </p>

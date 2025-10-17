@@ -5,7 +5,6 @@ export { default as emailIcon } from './icons/email.svg'
 export { default as whatsappIcon } from './icons/whatsapp.svg'
 export { default as telegramIcon } from './icons/telegram.png'
 
-
 // General images
 export { default as speakerImg } from './images/speaker.png'
 export { default as navLogo } from './images/robotum-logo-blue-white.svg'
@@ -21,7 +20,6 @@ export { default as maxon } from './images/partners/maxon.svg'
 export { default as reply } from './images/partners/roboverse-reply.svg'
 export { default as limx } from './images/partners/limx.png'
 export { default as olive } from './images/partners/olive-robotics.png'
-
 
 // Projects
 export { default as humanoidImg } from './images/projects/humanoid-project.png'
