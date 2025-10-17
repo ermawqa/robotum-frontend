@@ -1,21 +1,41 @@
 import { useState } from 'react'
-import humanoidImg from '../../assets/images/project1.png'
-import aiKitchenImg from '../../assets/images/project1.png'
+import * as assets from '../../assets'
 
 const projects = [
   {
     title: 'Humanoid Project',
     description:
-      'Building the fastest and most energy efficient humanoid robot in the world. Pushing the limits of energy-efficient locomotion, combining AI-aided bioinspired control and underactuated mechanical design.',
-    image: humanoidImg,
+      'Building the world\'s fastest and most energy-efficient Bipedal Robot. Design, Test, and iterate on hardware systems, work on our RL learning in Simulation, or come up with business proposals for its use cases. The Humanoid project needs every kind of background, from Tech to Marketing and Business! Help push the main technical Project of RoboTUM and revolutionize Humanoids!',
+    image: assets.humanoidImg,
     link: '#humanoid'
   },
   {
-    title: 'AI Kitchen Assistant',
+    title: 'Creative Robotics',
     description:
-      'Creating a domestic robot capable of performing tasks like cooking, dishwashing, and interacting with humans in kitchen environments using natural language.',
-    image: aiKitchenImg,
-    link: '#ai-kitchen'
+      'Building awesome robotics stuff with the abundance of resources we have gathered over the past year. Build cocktail mixing robots, self-positioning trash bins, or anything else that comes to your mind. The end goal for every project should be to present at some event somewhere, in order to create value for RoboTUM.',
+    image: assets.creativeRobotics,
+    link: '#creative-robotics'
+  },
+  {
+    title: 'Website Development',
+    description:
+      'From our Partnership with TU Design last Semester, we have an amazing website design waiting to be implemented. Help to shape RoboTUM\'s online presence and work on your web development skills!',
+    image: assets.websiteDevelopment,
+    link: '#website-development'
+  },
+  {
+    title: 'ITQ Plastix Project',
+    description:
+      'Together with our Partner ITQ, we are starting the PlastiX Project to clean our Beaches of Trash! Work closely together under our Partners supervision to develop an autonomous Robotic system consisting of drones and wheeled robots, to scan and clear beaches from Plastic. This project needs both Hardware and Software support. If you want to build robots and help our Planet while doing so, this is the place for you!',
+    image: assets.itqPlastix,
+    link: '#itq-plastix-project'
+  },
+  {
+    title: 'Reply',
+    description:
+      'Together with our sponsor, Reply, we\'re developing a cutting-edge software stack that expands on the autonomous capabilities of the PUMA Quadruped robot. This project is right for you if your focus is on software in autonomous systems!',
+    image: assets.replyProject,
+    link: '#reply'
   }
 ]
 

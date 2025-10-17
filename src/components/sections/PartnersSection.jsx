@@ -1,13 +1,10 @@
-import limx from '../../assets/images/partners/ansys.png'
-import maxon from '../../assets/images/partners/cubemars.png'
-import reply from '../../assets/images/partners/maytec.png'
-import cubemars from '../../assets/images/partners/maxon.png'
+import * as assets from '../../assets'
 
 const sponsors = [
-    { name: 'LIMX Dynamics', image: limx, tier: 'Lead Sponsor' },
-    { name: 'Maxon', image: maxon, tier: 'Lead Sponsor' },
-    { name: 'Reply Roboverse', image: reply, tier: 'Lead Sponsor' },
-    { name: 'CubeMars', image: cubemars, tier: 'Sponsor' }
+    { name: 'LIMX Dynamics', image: assets.limx, tier: 'Lead Sponsor' },
+    { name: 'Maxon', image: assets.maxon, tier: 'Lead Sponsor' },
+    { name: 'Reply Roboverse', image: assets.reply, tier: 'Lead Sponsor' },
+    { name: 'CubeMars', image: assets.cubemars, tier: 'Sponsor' }
 ]
 
 export default function PartnersSection() {

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import speakerImg from '../../assets/images/marco.jpg' 
+import { useState } from 'react' 
+import * as assets from '../../assets'
 
 const events = [
   {
@@ -45,7 +45,7 @@ export default function EventSection() {
         <div className="md:w-5/12 text-left">
           <h2 className="text-4xl md:text-5xl font-bold mb-8">Upcoming Events</h2>
           <img
-            src={speakerImg}
+            src={assets.speakerImg}
             alt="Event speaker"
             className="rounded-lg border border-white/20 shadow-lg"
           />

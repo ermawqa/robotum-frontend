@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import navLogo from '../../assets/images/robotum-logo-blue-white.svg'
+import * as assets from '../../assets'
 
 const links = [
   { label: 'Home', href: '#' },
@@ -10,7 +10,7 @@ const links = [
     label: 'Projects',
     href: '#projects',
     dropdown: true,
-    subLinks: ['Humanoid', 'FRP', 'IEP'],
+    subLinks: ['Humanoid', 'Creative Robotics', 'Website Development', 'ITQ Plastix', 'Reply'],
   },
   { label: 'Partners', href: '#partners' },
 ]
@@ -23,7 +23,7 @@ function ProjectDropdown({ open, onEnter, onLeave, onItemClick }) {
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
       >
-        {['Humanoid', 'FRP', 'IEP'].map(item => (
+        {['Humanoid', 'Creative Robotics', 'Website Development', 'ITQ Plastix', 'Reply'].map(item => (
           <a
             key={item}
             href="#projects"
@@ -92,7 +92,7 @@ export default function Navbar() {
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
             <img
-              src={navLogo}
+              src={assets.navLogo}
               alt="RoboTUM logo"
               className="w-[130px] h-[40px] object-contain"
             />

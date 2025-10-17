@@ -1,7 +1,4 @@
-
-
-import memberImg from '../../assets/images/foundations-team.jpg' 
-import partnerImg from '../../assets/images/foundations-team.jpg' 
+import * as assets from '../../assets'
 
 export default function JoinUsSection() {
   return (
@@ -13,7 +10,7 @@ export default function JoinUsSection() {
         {/* Become a Member */}
         <div className="flex flex-col md:flex-row items-center gap-8">
           <img
-            src={memberImg}
+            src={assets.memberImg}
             alt="Join as Member"
             className="md:w-1/2 w-full rounded-xl shadow-lg border border-white/10"
           />
@@ -43,7 +40,7 @@ export default function JoinUsSection() {
         {/* Become a Partner */}
         <div className="flex flex-col md:flex-row-reverse items-center gap-8">
           <img
-            src={partnerImg}
+            src={assets.partnerImg}
             alt="Join as Partner"
             className="md:w-1/2 w-full rounded-xl shadow-lg border border-white/10"
           />
