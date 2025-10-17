@@ -1,5 +1,4 @@
 import navLogo from '../../assets/images/robotum-logo-blue-white.svg'
-import robotBg from '../../assets/images/project1.png'
 
 export default function HeroSection() {
   return (
