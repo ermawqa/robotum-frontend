@@ -4,8 +4,8 @@ import * as assets from '../../../assets'
 const links = [
   { label: 'Home', href: '/' },
   { label: 'About us', href: '/about' },
-  { label: 'Join us', href: '#join' },
-  { label: 'Events', href: '#events' },
+  { label: 'Join us', href: '/join' },
+  { label: 'Events', href: '/events' },
   {
     label: 'Projects',
     href: '#projects',

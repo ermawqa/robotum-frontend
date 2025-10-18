@@ -4,6 +4,9 @@ export { default as linkedinIcon } from './icons/linkedin.svg'
 export { default as emailIcon } from './icons/email.svg'
 export { default as whatsappIcon } from './icons/whatsapp.svg'
 export { default as telegramIcon } from './icons/telegram.png'
+export { default as handsOnIcon } from './icons/hands-on.png'
+export { default as teamsIcon } from './icons/teams.png'
+export { default as eventsIcon } from './icons/events.png'
 
 // General images
 export { default as speakerImg } from './images/speaker.png'
@@ -12,6 +15,8 @@ export { default as memberImg } from './images/foundations-team.jpg'
 export { default as partnerImg } from './images/foundations-team.jpg' 
 export { default as logo } from './images/robotum-logo-blue-white.svg'
 export { default as auditoryImg } from './images/auditory.png'
+export { default as allMembersImg } from './images/foundations-team.jpg'
+export { default as eventsHero } from './images/eventsHero.png'
 
 // Partners 
 export { default as ansys } from './images/partners/ansys.png'
@@ -31,3 +36,10 @@ export { default as websiteDevelopment } from './images/projects/website-develop
 
 // Members
 export { default as member } from './images/members/marco.jpg'
+
+// Events
+export { default as event1 } from './images/events/event1.png'
+export { default as event2 } from './images/events/event2.png'
+export { default as event3 } from './images/events/event3.png'
+export { default as event4 } from './images/events/event4.png'
+export { default as event5 } from './images/events/event5.png'

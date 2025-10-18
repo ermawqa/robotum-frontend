@@ -50,19 +50,19 @@ export default function About() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
           <div className="rounded-xl p-6 bg-[#0B1B37] shadow-md">
             <p className="text-5xl font-semibold text-blue-100">
-              <Counter target={100} />
+              +<Counter target={100} />
             </p>
             <p className="mt-2 text-sm font-light text-gray-300">active members</p>
           </div>
           <div className="rounded-xl p-6 bg-[#0B1B37] shadow-md">
             <p className="text-5xl font-semibold text-blue-100">
-              <Counter target={21} />
+              +<Counter target={21} />
             </p>
             <p className="mt-2 text-sm font-light text-gray-300">partners &amp; sponsors</p>
           </div>
           <div className="rounded-xl p-6 bg-[#0B1B37] shadow-md">
             <p className="text-5xl font-semibold text-blue-100">
-              <Counter target={3} />
+              +<Counter target={3} />
             </p>
             <p className="mt-2 text-sm font-light text-gray-300">projects in development</p>
           </div>

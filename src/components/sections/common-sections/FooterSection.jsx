@@ -17,11 +17,11 @@ export default function FooterSection() {
         <div>
           <h3 className="font-semibold text-lg mb-3">Explore</h3>
           <ul className="flex flex-col gap-2 text-sm text-gray-300">
-            <li><a href="#" className="hover:text-white">Homepage</a></li>
-            <li><a href="#" className="hover:text-white">Projects</a></li>
-            <li><a href="#" className="hover:text-white">Events</a></li>
-            <li><a href="#" className="hover:text-white">About us</a></li>
-            <li><a href="#" className="hover:text-white">Join us</a></li>
+            <li><a href="/" className="hover:text-white">Homepage</a></li>
+            <li><a href="/projects" className="hover:text-white">Projects</a></li>
+            <li><a href="/events" className="hover:text-white">Events</a></li>
+            <li><a href="/about" className="hover:text-white">About us</a></li>
+            <li><a href="/join" className="hover:text-white">Join us</a></li>
           </ul>
         </div>
 
