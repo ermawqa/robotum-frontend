@@ -5,7 +5,9 @@
       "Bash(rtk git *)",
       "Bash(ssh-add -l)",
       "Bash(rtk ls *)",
-      "Bash(ssh *)"
+      "Bash(ssh *)",
+      "Bash(python3 *)",
+      "Bash(graphify export *)"
     ]
   }
 }
