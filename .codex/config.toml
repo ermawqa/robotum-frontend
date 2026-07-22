@@ -1,6 +1,0 @@
-model = "gpt-5.4"
-reasoning_effort = "medium"
-approval_mode = "agent"
-
-[projects."/absolute/path/to/robotum-new"]
-trust_level = "trusted"
