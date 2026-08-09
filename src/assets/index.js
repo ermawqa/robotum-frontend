@@ -35,7 +35,7 @@ export { default as eventHeroImg } from "./images/events-page/hero-image.png";
 export { default as joinUsHeroImg } from "./images/join-us-page/hero-image.png";
 
 // Partners page images
-export { default as violetImg } from "./images/partners-page/violet-image.png";
+export { default as pavelImg } from "./images/partners-page/pavel-fenskii-image.png";
 
 // Robocast page images
 export { default as robocastHeroImg } from "./images/robocast-page/hero-image.jpg";

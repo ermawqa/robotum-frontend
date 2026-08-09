@@ -200,14 +200,19 @@ export default function ContactUsSection() {
         {/* Right side: contact card */}
         <div className="flex flex-col items-center bg-elevated-1/40 border border-white/10 rounded-2xl p-8 text-center">
           <ImageFrame
-            src={assets.violetImg}
-            alt="Violet Hsu"
+            src={assets.pavelImg}
+            alt="Pavel Fenskii"
             className="w-40 h-40 rounded-full mb-5"
           />
-          <h3 className="heading text-xl mb-2">Violet Hsu</h3>
+          <h3 className="heading text-xl mb-2">Pavel Fenskii</h3>
           <p className="text-white/80 mb-4">Head of External Relations</p>
-          <p className="text-white/70 text-sm mb-1">outreach@robotum.info</p>
-          <p className="text-white/70 text-sm">+49 1522 3299796</p>
+          <a
+                    href="mailto:operations@robotum.info"
+                    className="underline hover:text-white"
+                  >
+                    operations@robotum.info
+                  </a>
+          <p className="text-white/70 text-sm">+49 1737 401924</p>
         </div>
       </div>
     </section>
