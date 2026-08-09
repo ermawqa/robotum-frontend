@@ -1,5 +1,6 @@
 import * as assets from "@assets";
 import Button from "@components/ui/Button";
+import HeroBackground from "./HeroBackground";
 
 export default function HeroSection({
   ctaPrimary = "Become a Member",
@@ -12,88 +13,10 @@ export default function HeroSection({
       id="hero"
       role="region"
       aria-labelledby="hero-heading"
-      className="relative w-full min-h-screen text-white font-sans hero-orbit-bg"
+      className="relative w-full min-h-screen overflow-hidden text-white font-sans"
     >
-      {/* Subtle animated tech lines overlay */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-full"
-          viewBox="0 0 800 800"
-          preserveAspectRatio="xMidYMid slice"
-        >
-          <defs>
-            <linearGradient id="lineGradient" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#4f8bff" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="#a78bfa" stopOpacity="0.5" />
-            </linearGradient>
-          </defs>
-          <g stroke="url(#lineGradient)" strokeWidth="1.0" fill="none">
-            {[...Array(20)].map((_, i) => (
-              <path
-                key={i}
-                d={`M0 ${i * 40} C ${200 + i * 10} ${100 + i * 15}, ${600 - i * 15} ${300 - i * 10}, 800 ${i * 40}`}
-                opacity="0.6"
-              >
-                <animate
-                  attributeName="d"
-                  dur={`${3 + i * 2}s`}
-                  repeatCount="indefinite"
-                  values={`M0 ${i * 40} C ${200 + i * 10} ${100 + i * 15}, ${600 - i * 15} ${300 - i * 10}, 800 ${i * 40};
-                          M0 ${i * 40} C ${250 + i * 10} ${80 + i * 15}, ${550 - i * 15} ${320 - i * 10}, 800 ${i * 40};
-                          M0 ${i * 40} C ${200 + i * 10} ${100 + i * 15}, ${600 - i * 15} ${300 - i * 10}, 800 ${i * 40}`}
-                />
-              </path>
-            ))}
-          </g>
-        </svg>
-      </div>
-      {/* ===== Background: layered glows + subtle grid ===== */}
-      {/* Base dark fill */}
-      <div className="absolute inset-0 -z-20 bg-primary" />
-
-      {/* Soft radial glows (no heavy animation; motion-safe pulse) */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-32 left-1/2 h-[60vh] w-[80vw] -translate-x-1/2 rounded-[999px] blur-3xl opacity-50 md:opacity-60
-                   bg-[radial-gradient(60%_60%_at_50%_40%,rgba(0,49,135,0.45),transparent_70%)] motion-safe:animate-pulse"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-[-20vh] right-[-10vw] h-[55vh] w-[55vw] rounded-[999px] blur-2xl opacity-40 md:opacity-50
-                   bg-[radial-gradient(55%_55%_at_50%_50%,rgba(124,58,237,0.35),transparent_70%)] motion-safe:animate-pulse"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-[10vh] left-[-10vw] h-[40vh] w-[45vw] rounded-[999px] blur-2xl opacity-35
-                   bg-[radial-gradient(55%_55%_at_50%_50%,rgba(59,130,246,0.35),transparent_70%)] motion-safe:animate-pulse"
-      />
-
-      {/* Subtle grid overlay (SVG pattern) */}
-      <svg
-        aria-hidden
-        className="absolute inset-0 -z-10 opacity-[0.15] mix-blend-overlay"
-        width="100%"
-        height="100%"
-        preserveAspectRatio="none"
-      >
-        <defs>
-          <pattern
-            id="hero-grid"
-            width="48"
-            height="48"
-            patternUnits="userSpaceOnUse"
-          >
-            <path
-              d="M48 0H0V48"
-              fill="none"
-              stroke="rgba(255,255,255,0.15)"
-              strokeWidth="1"
-            />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#hero-grid)" />
-      </svg>
+      {/* ===== Background: aurora + grid + orbit rings + node lattice ===== */}
+      <HeroBackground />
 
       {/* Main content centered vertically */}
       <div className="section-container relative z-10 flex flex-col items-center justify-center min-h-screen text-center pt-20 sm:pt-24">
