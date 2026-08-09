@@ -166,13 +166,16 @@ export async function adminUpsertEvent(event) {
   const end_at = event.end_at ? new Date(event.end_at).toISOString() : null;
 
   let finalCoverUrl = event.cover_url?.trim() || null;
+  let uploadedStoragePath = null;
   if (event.imageFile) {
     const uploadTarget = getAdminImageUploadTarget("events");
-    const { publicUrl } = await uploadPublicImage({
+    const { publicUrl, storagePath } = await uploadPublicImage({
       file: event.imageFile,
       folderPath: uploadTarget.folderPath,
+      slug,
     });
     finalCoverUrl = publicUrl;
+    uploadedStoragePath = storagePath;
   }
 
   const previousCoverUrl = event.previous_cover_url?.trim() || null;
@@ -216,7 +219,10 @@ export async function adminUpsertEvent(event) {
     }
 
     if (event.imageFile && previousCoverUrl && previousCoverUrl !== finalCoverUrl) {
-      await deletePublicImageByUrl({ publicUrl: previousCoverUrl });
+      await deletePublicImageByUrl({
+        publicUrl: previousCoverUrl,
+        exceptStoragePath: uploadedStoragePath,
+      });
     }
   } else {
     const { error } = await supabase.from("events").insert(payload);

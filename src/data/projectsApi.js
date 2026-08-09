@@ -191,13 +191,16 @@ export async function adminUpsertProject(project) {
         .filter((t) => t.length > 0);
 
   let finalCoverUrl = project.cover_url?.trim() || "";
+  let uploadedStoragePath = null;
   if (project.imageFile) {
     const uploadTarget = getAdminImageUploadTarget("projects");
-    const { publicUrl } = await uploadPublicImage({
+    const { publicUrl, storagePath } = await uploadPublicImage({
       file: project.imageFile,
       folderPath: uploadTarget.folderPath,
+      slug,
     });
     finalCoverUrl = publicUrl;
+    uploadedStoragePath = storagePath;
   }
 
   const previousCoverUrl = project.previous_cover_url?.trim() || null;
@@ -244,7 +247,10 @@ export async function adminUpsertProject(project) {
       previousCoverUrl &&
       previousCoverUrl !== finalCoverUrl
     ) {
-      await deletePublicImageByUrl({ publicUrl: previousCoverUrl });
+      await deletePublicImageByUrl({
+        publicUrl: previousCoverUrl,
+        exceptStoragePath: uploadedStoragePath,
+      });
     }
   } else {
     // Insert new project

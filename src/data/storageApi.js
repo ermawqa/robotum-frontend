@@ -33,13 +33,18 @@ function buildUniqueId() {
   return fallbackUniqueId();
 }
 
-function sanitizeBaseName(fileName) {
-  const noExtension = fileName.replace(/\.[^/.]+$/, "").trim().toLowerCase();
-  const slug = noExtension
+function sanitizeSlugSegment(value) {
+  const slug = String(value ?? "")
+    .trim()
+    .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
   return slug || "image";
+}
+
+function sanitizeBaseName(fileName) {
+  return sanitizeSlugSegment(fileName.replace(/\.[^/.]+$/, ""));
 }
 
 function resolveFileExtension(file) {
@@ -55,13 +60,31 @@ function resolveFileExtension(file) {
   return "bin";
 }
 
-function createStoragePath(folderPath, file) {
-  const timestamp = Date.now();
-  const uniqueId = buildUniqueId();
-  const baseName = sanitizeBaseName(file?.name || "image");
+/**
+ * Name the object after the entity slug so the bucket stays readable and
+ * matches files uploaded by hand (e.g. `projects/covers/website-development.png`).
+ * Without a slug we fall back to a unique name — two unrelated uploads must
+ * never be able to collide on the same path.
+ */
+function createStoragePath(folderPath, file, slug) {
   const extension = resolveFileExtension(file);
 
-  return `${folderPath}/${timestamp}-${uniqueId}-${baseName}.${extension}`;
+  if (slug) {
+    return `${folderPath}/${sanitizeSlugSegment(slug)}.${extension}`;
+  }
+
+  const baseName = sanitizeBaseName(file?.name || "image");
+  return `${folderPath}/${Date.now()}-${buildUniqueId()}-${baseName}.${extension}`;
+}
+
+/**
+ * Slug-based names are deterministic, so replacing a cover reuses the same URL
+ * and Supabase's CDN would keep serving the old image. A version query param
+ * keeps the stored filename clean while still busting the cache.
+ */
+function withCacheBuster(publicUrl) {
+  const separator = publicUrl.includes("?") ? "&" : "?";
+  return `${publicUrl}${separator}v=${Date.now()}`;
 }
 
 function ensureValidImageFile(file) {
@@ -142,6 +165,7 @@ export function getAdminImageUploadTarget(entityName) {
 export async function uploadPublicImage({
   file,
   folderPath,
+  slug,
   bucketName = ADMIN_ASSET_BUCKET,
 }) {
   ensureValidImageFile(file);
@@ -150,13 +174,15 @@ export async function uploadPublicImage({
     throw new Error("Missing storage folder path for image upload.");
   }
 
-  const storagePath = createStoragePath(folderPath, file);
+  const storagePath = createStoragePath(folderPath, file, slug);
   const { error: uploadError } = await supabase
     .storage
     .from(bucketName)
     .upload(storagePath, file, {
       cacheControl: "3600",
-      upsert: false,
+      // Slug-based paths repeat when a cover is replaced, so overwrite instead
+      // of failing with "already exists".
+      upsert: true,
       contentType: file.type || undefined,
     });
 
@@ -171,7 +197,7 @@ export async function uploadPublicImage({
   }
 
   return {
-    publicUrl: data.publicUrl,
+    publicUrl: withCacheBuster(data.publicUrl),
     storagePath,
     bucketName,
   };
@@ -179,12 +205,21 @@ export async function uploadPublicImage({
 
 export async function deletePublicImageByUrl({
   publicUrl,
+  exceptStoragePath,
   bucketName = ADMIN_ASSET_BUCKET,
 }) {
   if (!publicUrl) return false;
 
   const storagePath = tryParsePublicStoragePath(publicUrl, bucketName);
   if (!storagePath || !isManagedFolderPath(storagePath)) {
+    return false;
+  }
+
+  // Slug-based names mean a replacement usually reuses the same object. The
+  // old URL then points at the file we just uploaded — deleting it would wipe
+  // the new cover. Only remove the previous file when the path really changed
+  // (slug renamed, or a different file extension).
+  if (exceptStoragePath && storagePath === exceptStoragePath) {
     return false;
   }
 

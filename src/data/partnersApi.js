@@ -100,13 +100,16 @@ export async function adminUpsertPartner(partner) {
   }
 
   let finalLogoUrl = partner.logo_url?.trim() || null;
+  let uploadedStoragePath = null;
   if (partner.imageFile) {
     const uploadTarget = getAdminImageUploadTarget("partners");
-    const { publicUrl } = await uploadPublicImage({
+    const { publicUrl, storagePath } = await uploadPublicImage({
       file: partner.imageFile,
       folderPath: uploadTarget.folderPath,
+      slug,
     });
     finalLogoUrl = publicUrl;
+    uploadedStoragePath = storagePath;
   }
 
   const previousLogoUrl = partner.previous_logo_url?.trim() || null;
@@ -143,7 +146,10 @@ export async function adminUpsertPartner(partner) {
     }
 
     if (partner.imageFile && previousLogoUrl && previousLogoUrl !== finalLogoUrl) {
-      await deletePublicImageByUrl({ publicUrl: previousLogoUrl });
+      await deletePublicImageByUrl({
+        publicUrl: previousLogoUrl,
+        exceptStoragePath: uploadedStoragePath,
+      });
     }
   } else {
     const { error } = await supabase.from("partners").insert(payload);
