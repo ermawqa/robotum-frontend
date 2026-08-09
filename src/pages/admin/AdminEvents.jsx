@@ -12,7 +12,7 @@ import {
   toLocalInputValue,
 } from "@data";
 
-import AdminErrorBanner from "@components/admin/AdminErrorBanner";
+import AdminBanner from "@components/admin/AdminBanner";
 import AdminListHeader from "@components/admin/AdminListHeader";
 import AdminSideCard from "@components/admin/AdminSideCard";
 import AdminPagination from "@components/admin/AdminPagination";
@@ -194,11 +194,11 @@ export default function AdminEvents() {
         previous_cover_url: editing?.cover_url || null,
       });
 
-      setSuccessMsg("Event saved successfully.");
       await loadEvents({
         page: pagination.currentPage,
         pageSize: pagination.pageSize,
       });
+      setSuccessMsg("Event saved successfully.");
       resetForm();
     } catch (err) {
       logger.error("Error saving event:", err);
@@ -215,11 +215,11 @@ export default function AdminEvents() {
 
     try {
       await adminDeleteEvent(ev.id);
-      setSuccessMsg("Event deleted.");
       await loadEvents({
         page: pagination.currentPage,
         pageSize: pagination.pageSize,
       });
+      setSuccessMsg("Event deleted.");
       if (editing && editing.id === ev.id) {
         resetForm();
       }
@@ -236,12 +236,8 @@ export default function AdminEvents() {
       title="Events"
       description="Create, edit, and organize RoboTUM events."
     >
-      <AdminErrorBanner message={errorMsg} />
-      {successMsg && (
-        <div className="mb-4 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
-          {successMsg}
-        </div>
-      )}
+      <AdminBanner message={errorMsg} />
+      <AdminBanner message={successMsg} tone="success" />
 
       <div className="grid gap-8 lg:grid-cols-[2fr_minmax(0,1.4fr)] items-start">
         {/* LEFT: list of events */}
@@ -265,7 +261,7 @@ export default function AdminEvents() {
                 return (
                   <li
                     key={ev.id}
-                    className="flex items-start justify-between gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+                    className="flex items-start justify-between gap-3 card-surface card-surface-hover px-4 py-3"
                   >
                     <div className="space-y-1">
                       <div className="flex flex-wrap items-center gap-2">
@@ -366,7 +362,7 @@ export default function AdminEvents() {
                 required
                 value={form.title}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
                 placeholder="Robotics Kickoff 2025"
               />
             </div>
@@ -381,7 +377,7 @@ export default function AdminEvents() {
                 type="text"
                 value={form.slug}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
                 placeholder="robotics-kickoff-2025"
               />
               <p className="text-[11px] text-white/40">
@@ -401,7 +397,7 @@ export default function AdminEvents() {
                   required
                   value={form.category}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                  className="field-input"
                 >
                   {EVENT_CATEGORY_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -421,7 +417,7 @@ export default function AdminEvents() {
                   required
                   value={form.format}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                  className="field-input"
                 >
                   {EVENT_FORMAT_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -445,7 +441,7 @@ export default function AdminEvents() {
                   required
                   value={form.start_at}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                  className="field-input"
                 />
               </div>
 
@@ -460,7 +456,7 @@ export default function AdminEvents() {
                   required
                   value={form.end_at}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                  className="field-input"
                 />
               </div>
             </div>
@@ -480,7 +476,7 @@ export default function AdminEvents() {
                 required
                 value={form.location_name}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
                 placeholder="Walter-Gropius-Straße 17, Munich"
               />
             </div>
@@ -498,7 +494,7 @@ export default function AdminEvents() {
                 type="url"
                 value={form.location_url}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
                 placeholder="https://maps.google.com/…"
               />
             </div>
@@ -518,7 +514,7 @@ export default function AdminEvents() {
                 required
                 value={form.registration_url}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
                 placeholder="https://…"
               />
             </div>
@@ -533,7 +529,7 @@ export default function AdminEvents() {
                 type="file"
                 accept="image/*"
                 onChange={handleCoverFileChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
               />
               <p className="text-[11px] text-white/40">
                 Upload a new image or keep the current one. Max file size: 10MB.
@@ -580,7 +576,7 @@ export default function AdminEvents() {
                 rows={2}
                 value={form.summary}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent resize-y"
+                className="field-input resize-y"
                 placeholder="One or two sentences shown on cards."
               />
             </div>
@@ -595,7 +591,7 @@ export default function AdminEvents() {
                 rows={4}
                 value={form.description}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent resize-y"
+                className="field-input resize-y"
                 placeholder="Longer description for the event detail page."
               />
             </div>

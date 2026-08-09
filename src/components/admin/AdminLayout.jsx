@@ -51,10 +51,17 @@ export default function AdminLayout({ children, title, description }) {
     // { to: "/admin/applications", label: "Applications" },
   ];
 
+  const navLinkClass = (active) =>
+    `rounded-lg border text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+      active
+        ? "bg-accent/90 border-blue-300/30 text-white shadow-[0_0_20px_rgba(59,130,246,.35)]"
+        : "border-transparent text-white/70 hover:text-white hover:bg-white/10 hover:border-white/10"
+    }`;
+
   return (
     <div className="min-h-screen bg-canvas text-white md:flex">
-      {/* Sidebar */}
-      <aside className="hidden md:flex w-64 shrink-0 h-screen sticky top-0 flex-col border-r border-white/10 bg-black/40 backdrop-blur-xl">
+      {/* Sidebar (desktop) */}
+      <aside className="hidden md:flex w-64 shrink-0 h-screen sticky top-0 flex-col border-r border-white/10 bg-elevated-1/60 backdrop-blur-xl">
         <div className="px-5 py-4 border-b border-white/10 flex items-center gap-3">
           <img src={assets.navLogo} alt="RoboTUM" className="h-9 w-auto" />
           <div>
@@ -73,11 +80,8 @@ export default function AdminLayout({ children, title, description }) {
                 <Link
                   key={item.to}
                   to={item.to}
-                  className={`block px-3 py-2 rounded-lg border text-sm transition-all ${
-                    active
-                      ? "bg-accent/90 border-blue-300/30 text-white shadow-[0_0_20px_rgba(59,130,246,.35)]"
-                      : "border-transparent text-white/80 hover:bg-white/10 hover:border-white/10"
-                  }`}
+                  aria-current={active ? "page" : undefined}
+                  className={`block px-3 py-2 ${navLinkClass(active)}`}
                 >
                   {item.label}
                 </Link>
@@ -85,12 +89,15 @@ export default function AdminLayout({ children, title, description }) {
             })}
           </nav>
 
-          <div className="px-4 py-4 border-t border-white/10 bg-black/25">
-            <div className="mb-3 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
+          <div className="px-4 py-4 border-t border-white/10 bg-canvas/40">
+            <div className="mb-3 card-surface px-3 py-2.5">
               <p className="text-[11px] uppercase tracking-[0.12em] text-white/50">
                 Signed in as
               </p>
-              <p className="mt-1 text-sm font-medium text-white truncate" title={adminEmail || "No email available"}>
+              <p
+                className="mt-1 text-sm font-medium text-white truncate"
+                title={adminEmail || "No email available"}
+              >
                 {truncatedEmail}
               </p>
             </div>
@@ -109,31 +116,52 @@ export default function AdminLayout({ children, title, description }) {
 
       {/* Main */}
       <main className="flex-1 min-h-screen">
-        {/* Top bar (mobile / general) */}
-        <header className="md:hidden flex items-center justify-between gap-3 px-4 py-3 border-b border-white/10 bg-black/40 backdrop-blur-xl">
-          <Link to="/admin" className="flex items-center gap-2 shrink-0">
-            <img src={assets.navLogo} alt="RoboTUM" className="h-7 w-auto" />
-            <span className="text-sm font-semibold">RoboTUM Admin</span>
-          </Link>
-          <div className="min-w-0 flex items-center gap-2">
-            <p
-              className="max-w-[140px] truncate text-xs text-white/70"
-              title={adminEmail || "No email available"}
-            >
-              {truncatedEmail}
-            </p>
-            <Button variant="secondary" size="sm" onClick={handleLogout}>
-              Log out
-            </Button>
+        {/* Top bar + nav (mobile) */}
+        <header className="md:hidden sticky top-0 z-20 border-b border-white/10 bg-elevated-1/80 backdrop-blur-xl">
+          <div className="flex items-center justify-between gap-3 px-4 py-3">
+            <Link to="/admin" className="flex items-center gap-2 shrink-0">
+              <img src={assets.navLogo} alt="RoboTUM" className="h-7 w-auto" />
+              <span className="text-sm font-semibold">RoboTUM Admin</span>
+            </Link>
+            <div className="min-w-0 flex items-center gap-2">
+              <p
+                className="max-w-[120px] truncate text-xs text-white/70"
+                title={adminEmail || "No email available"}
+              >
+                {truncatedEmail}
+              </p>
+              <Button variant="secondary" size="xs" onClick={handleLogout}>
+                Log out
+              </Button>
+            </div>
           </div>
+
+          {/* Without this, mobile admins had no way to move between sections. */}
+          <nav className="flex gap-1.5 overflow-x-auto px-4 pb-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {navItems.map((item) => {
+              const active = location.pathname === item.to;
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  aria-current={active ? "page" : undefined}
+                  className={`shrink-0 px-3 py-1.5 ${navLinkClass(active)}`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
         </header>
 
-        <div className="px-4 md:px-8 py-6 md:py-8 max-w-5xl mx-auto">
+        <div className="px-4 md:px-8 py-6 md:py-8 max-w-7xl mx-auto">
           {title && (
-            <div className="mb-6">
+            <div className="mb-6 pb-5 border-b border-white/10">
               <h1 className="heading heading-h2">{title}</h1>
               {description && (
-                <p className="text-sm text-white/70 mt-2">{description}</p>
+                <p className="text-sm text-white/70 mt-2 max-w-2xl">
+                  {description}
+                </p>
               )}
             </div>
           )}

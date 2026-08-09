@@ -798,8 +798,21 @@ body::before {
   @apply opacity-80 cursor-default;
 }
 
+/* Danger — destructive, irreversible actions (delete). Deliberately reads as a
+   warning, never as a primary action, so it can't be hit by muscle memory. */
+.btn-danger {
+  @apply inline-flex items-center justify-center rounded-full px-6 py-3 font-semibold select-none transition-all duration-200;
+  @apply text-red-100 bg-red-500/15 border border-red-400/40;
+  @apply hover:bg-red-500/25 hover:border-red-300/60;
+  @apply active:scale-[0.98];
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-0;
+}
+
 /* Sizes - declared after the variants so size padding wins on equal specificity.
    .btn-md equals the previous default (px-6 py-3); existing md buttons unchanged. */
+.btn-xs {
+  @apply px-3 py-1.5 text-xs;
+}
 .btn-sm {
   @apply px-4 py-2 text-sm;
 }

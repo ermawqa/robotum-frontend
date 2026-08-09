@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { logger } from "@utils/logger";
 import { Link } from "react-router-dom";
 import AdminLayout from "@components/admin/AdminLayout";
-import AdminErrorBanner from "@components/admin/AdminErrorBanner";
+import AdminBanner from "@components/admin/AdminBanner";
 import {
   adminFetchEvents,
   adminFetchFaqs,
@@ -76,13 +76,13 @@ export default function AdminDashboard() {
       description="Manage RoboTUM content and internal data."
     >
       <div className="space-y-8">
-        {errorMsg && <AdminErrorBanner message={errorMsg} />}
+        {errorMsg && <AdminBanner message={errorMsg} />}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {statCards.map((item) => (
             <div
               key={item.label}
-              className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm"
+              className="card-surface p-5"
             >
               <p className="text-xs text-white/60">{item.label}</p>
               <p
@@ -100,7 +100,7 @@ export default function AdminDashboard() {
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           <Link
             to="/admin/faqs"
-            className="rounded-xl border border-white/10 bg-white/5 px-6 py-8 hover:bg-white/10 hover:border-white/20 transition-all backdrop-blur-md block"
+            className="card-surface card-surface-hover px-6 py-8 transition-all backdrop-blur-md block"
           >
             <h3 className="text-lg font-semibold text-white mb-2">FAQs</h3>
             <p className="text-white/70 text-sm">
@@ -110,7 +110,7 @@ export default function AdminDashboard() {
 
           <Link
             to="/admin/partners"
-            className="rounded-xl border border-white/10 bg-white/5 px-6 py-8 hover:bg-white/10 hover:border-white/20 transition-all backdrop-blur-md block"
+            className="card-surface card-surface-hover px-6 py-8 transition-all backdrop-blur-md block"
           >
             <h3 className="text-lg font-semibold text-white mb-2">Partners</h3>
             <p className="text-white/70 text-sm">
@@ -119,7 +119,7 @@ export default function AdminDashboard() {
           </Link>
           <Link
             to="/admin/projects"
-            className="rounded-xl border border-white/10 bg-white/5 px-6 py-8 hover:bg-white/10 hover:border-white/20 transition-all backdrop-blur-md block"
+            className="card-surface card-surface-hover px-6 py-8 transition-all backdrop-blur-md block"
           >
             <h3 className="text-lg font-semibold text-white mb-2">Projects</h3>
             <p className="text-white/70 text-sm">
@@ -129,7 +129,7 @@ export default function AdminDashboard() {
 
           <Link
             to="/admin/events"
-            className="rounded-xl border border-white/10 bg-white/5 px-6 py-8 hover:bg-white/10 hover:border-white/20 transition-all backdrop-blur-md block"
+            className="card-surface card-surface-hover px-6 py-8 transition-all backdrop-blur-md block"
           >
             <h3 className="text-lg font-semibold text-white mb-2">Events</h3>
             <p className="text-white/70 text-sm">
@@ -137,14 +137,14 @@ export default function AdminDashboard() {
             </p>
           </Link>
 
-          <div className="rounded-xl border border-white/10 bg-white/5 px-6 py-8 opacity-40 cursor-not-allowed backdrop-blur-md">
+          <div className="card-surface px-6 py-8 opacity-40 cursor-not-allowed backdrop-blur-md">
             <h3 className="text-lg font-semibold text-white mb-2">
               Applications
             </h3>
             <p className="text-white/70 text-sm">Coming soon…</p>
           </div>
 
-          <div className="rounded-xl border border-white/10 bg-white/5 px-6 py-8 opacity-40 cursor-not-allowed backdrop-blur-md">
+          <div className="card-surface px-6 py-8 opacity-40 cursor-not-allowed backdrop-blur-md">
             <h3 className="text-lg font-semibold text-white mb-2">Members</h3>
             <p className="text-white/70 text-sm">Coming soon…</p>
           </div>

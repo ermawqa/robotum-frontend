@@ -12,7 +12,7 @@ import {
   PROJECT_STATUS,
 } from "@data";
 
-import AdminErrorBanner from "@components/admin/AdminErrorBanner";
+import AdminBanner from "@components/admin/AdminBanner";
 import AdminListHeader from "@components/admin/AdminListHeader";
 import AdminSideCard from "@components/admin/AdminSideCard";
 import AdminPagination from "@components/admin/AdminPagination";
@@ -209,11 +209,11 @@ export default function AdminProjects() {
       };
 
       await adminUpsertProject(payload);
-      setSuccessMsg("Project saved successfully.");
       await loadProjects({
         page: pagination.currentPage,
         pageSize: pagination.pageSize,
       });
+      setSuccessMsg("Project saved successfully.");
       resetForm();
     } catch (err) {
       logger.error("Error saving project:", err);
@@ -235,11 +235,11 @@ export default function AdminProjects() {
 
     try {
       await adminDeleteProject(project.id);
-      setSuccessMsg("Project deleted.");
       await loadProjects({
         page: pagination.currentPage,
         pageSize: pagination.pageSize,
       });
+      setSuccessMsg("Project deleted.");
       if (form.id === project.id) {
         resetForm();
       }
@@ -266,12 +266,8 @@ export default function AdminProjects() {
       title="Projects"
       description="Manage technical, operations, and innovation projects shown on the public site."
     >
-      <AdminErrorBanner message={errorMsg} />
-      {successMsg && (
-        <div className="mb-4 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
-          {successMsg}
-        </div>
-      )}
+      <AdminBanner message={errorMsg} />
+      <AdminBanner message={successMsg} tone="success" />
 
       <div className="grid gap-8 xl:grid-cols-[1.7fr_minmax(0,1.3fr)] items-start">
         {/* LEFT: List */}
@@ -293,7 +289,7 @@ export default function AdminProjects() {
               {projects.map((p) => (
                 <li
                   key={p.id}
-                  className="flex items-start justify-between gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+                  className="flex items-start justify-between gap-3 card-surface card-surface-hover px-4 py-3"
                 >
                   <div className="space-y-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -404,7 +400,7 @@ export default function AdminProjects() {
                 required
                 value={form.name}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
                 placeholder="Autonomous humanoid navigation stack"
               />
             </div>
@@ -419,7 +415,7 @@ export default function AdminProjects() {
                 type="text"
                 value={form.slug}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
                 placeholder="humanoid-navigation"
               />
             </div>
@@ -439,7 +435,7 @@ export default function AdminProjects() {
                   required
                   value={form.category}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                  className="field-input"
                 >
                   {PROJECT_CATEGORIES.map((c) => (
                     <option key={c.value} value={c.value}>
@@ -458,7 +454,7 @@ export default function AdminProjects() {
                   name="status"
                   value={form.status}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                  className="field-input"
                 >
                   <option value="">- None -</option>
                   {PROJECT_STATUS.map((s) => (
@@ -482,7 +478,7 @@ export default function AdminProjects() {
                 required
                 value={form.summary}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent resize-y"
+                className="field-input resize-y"
                 placeholder="Short description used on overview cards…"
               />
             </div>
@@ -502,7 +498,7 @@ export default function AdminProjects() {
                 required
                 value={form.description}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent resize-y"
+                className="field-input resize-y"
                 placeholder="More detailed description for the project detail page…"
               />
             </div>
@@ -521,7 +517,7 @@ export default function AdminProjects() {
                 rows={2}
                 value={form.used_tools}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent resize-y"
+                className="field-input resize-y"
                 placeholder="ROS2, NVIDIA Jetson, custom motor drivers…"
               />
             </div>
@@ -539,7 +535,7 @@ export default function AdminProjects() {
                 rows={2}
                 value={form.future_plans}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent resize-y"
+                className="field-input resize-y"
                 placeholder="Next steps, competitions, long-term roadmap…"
               />
             </div>
@@ -555,7 +551,7 @@ export default function AdminProjects() {
                 type="file"
                 accept="image/*"
                 onChange={handleCoverFileChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
               />
               <p className="text-[11px] text-white/40">
                 Upload a new image or keep the existing one. Max file size: 10MB.
@@ -608,7 +604,7 @@ export default function AdminProjects() {
                 required
                 value={form.tagsText}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
                 placeholder="robotics, ai, humanoid robots"
               />
               <p className="text-[11px] text-white/40">

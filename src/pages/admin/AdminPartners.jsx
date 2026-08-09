@@ -10,7 +10,7 @@ import {
   PARTNER_CATEGORIES,
 } from "@data";
 
-import AdminErrorBanner from "@components/admin/AdminErrorBanner";
+import AdminBanner from "@components/admin/AdminBanner";
 import AdminListHeader from "@components/admin/AdminListHeader";
 import AdminSideCard from "@components/admin/AdminSideCard";
 import AdminPagination from "@components/admin/AdminPagination";
@@ -207,12 +207,8 @@ export default function AdminPartners() {
       title="Partners"
       description="Manage RoboTUM partners shown on the public site."
     >
-      <AdminErrorBanner message={errorMsg} />
-      {successMsg && (
-        <div className="mb-4 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
-          {successMsg}
-        </div>
-      )}
+      <AdminBanner message={errorMsg} />
+      <AdminBanner message={successMsg} tone="success" />
 
       <div className="grid gap-8 md:grid-cols-[2fr_minmax(0,1.6fr)] items-start">
         {/* List */}
@@ -234,7 +230,7 @@ export default function AdminPartners() {
               {partners.map((partner) => (
                 <li
                   key={partner.id}
-                  className="flex items-start justify-between gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+                  className="flex items-start justify-between gap-3 card-surface card-surface-hover px-4 py-3"
                 >
                   <div className="flex gap-3">
                     {partner.logo_url && (
@@ -341,7 +337,7 @@ export default function AdminPartners() {
                 required
                 value={form.name}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
                 placeholder="Company / organization name"
               />
             </div>
@@ -360,7 +356,7 @@ export default function AdminPartners() {
                 required
                 value={form.category}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
               >
                 {PARTNER_CATEGORIES.map((cat) => (
                   <option key={cat.value} value={cat.value}>
@@ -381,7 +377,7 @@ export default function AdminPartners() {
                 type="file"
                 accept="image/*"
                 onChange={handleLogoFileChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
               />
               <p className="text-[11px] text-white/40">
                 Upload a new logo or keep the current one. Max file size: 10MB.
@@ -428,7 +424,7 @@ export default function AdminPartners() {
                 type="url"
                 value={form.website_url}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
                 placeholder="https://…"
               />
             </div>
@@ -448,7 +444,7 @@ export default function AdminPartners() {
                   type="number"
                   value={form.priority}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                  className="field-input"
                   placeholder="100"
                 />
               </div>
@@ -481,7 +477,7 @@ export default function AdminPartners() {
                 type="text"
                 value={form.slug}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
                 placeholder="e.g. bosch, tum-ics, robotics-lab"
               />
               <p className="text-[11px] text-white/40">

@@ -42,10 +42,12 @@ export default function Button({
       "primary-light": "btn-primary-light",
       secondary: "btn-secondary",
       secondaryStatic: "btn-secondary-static", // ✅ NEW VARIANT
+      danger: "btn-danger", // destructive actions (delete)
     }[variant] || "btn-primary";
 
   const sizeClass =
     {
+      xs: "btn-xs",
       sm: "btn-sm",
       md: "btn-md",
       lg: "btn-lg",

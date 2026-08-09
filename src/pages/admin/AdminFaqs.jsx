@@ -9,7 +9,7 @@ import {
   adminDeleteFaq,
   FAQ_CATEGORIES,
 } from "@data";
-import AdminErrorBanner from "@components/admin/AdminErrorBanner";
+import AdminBanner from "@components/admin/AdminBanner";
 import AdminListHeader from "@components/admin/AdminListHeader";
 import AdminSideCard from "@components/admin/AdminSideCard";
 import AdminPagination from "@components/admin/AdminPagination";
@@ -21,6 +21,7 @@ export default function AdminFaqs() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [pagination, setPagination] = useState({
     currentPage: 1,
     pageSize: DEFAULT_PAGE_SIZE,
@@ -109,6 +110,7 @@ export default function AdminFaqs() {
     e.preventDefault();
     setSaving(true);
     setErrorMsg("");
+    setSuccessMsg("");
 
     try {
       await adminUpsertFaq({
@@ -120,6 +122,7 @@ export default function AdminFaqs() {
         pageSize: pagination.pageSize,
       });
       startNew();
+      setSuccessMsg("FAQ saved successfully.");
     } catch (err) {
       logger.error("Error saving FAQ:", err);
       setErrorMsg(err.message || "Failed to save FAQ.");
@@ -137,6 +140,7 @@ export default function AdminFaqs() {
         page: pagination.currentPage,
         pageSize: pagination.pageSize,
       });
+      setSuccessMsg("FAQ deleted.");
     } catch (error) {
       logger.error("Error deleting FAQ:", error);
       setErrorMsg("Failed to delete FAQ.");
@@ -150,7 +154,8 @@ export default function AdminFaqs() {
       title="FAQs"
       description="Manage questions and answers shown on the public FAQ page."
     >
-      <AdminErrorBanner message={errorMsg} />
+      <AdminBanner message={errorMsg} />
+      <AdminBanner message={successMsg} tone="success" />
 
       <div className="grid gap-8 md:grid-cols-[2fr_minmax(0,1.5fr)] items-start">
         {/* List */}
@@ -172,7 +177,7 @@ export default function AdminFaqs() {
               {faqs.map((faq) => (
                 <li
                   key={faq.id}
-                  className="flex items-start justify-between gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+                  className="flex items-start justify-between gap-3 card-surface card-surface-hover px-4 py-3"
                 >
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-white">
@@ -244,7 +249,7 @@ export default function AdminFaqs() {
                 required
                 value={form.question}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
                 placeholder="What is RoboTUM?"
               />
             </div>
@@ -260,7 +265,7 @@ export default function AdminFaqs() {
                 rows={4}
                 value={form.answer}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent resize-y"
+                className="field-input resize-y"
                 placeholder="RoboTUM is the official robotics student team at TUM…"
               />
             </div>
@@ -275,7 +280,7 @@ export default function AdminFaqs() {
                 required
                 value={form.category}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
+                className="field-input"
               >
                 {FAQ_CATEGORIES.map((cat) => (
                   <option key={cat.value} value={cat.value}>
