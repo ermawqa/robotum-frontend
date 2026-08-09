@@ -1,7 +1,9 @@
 import { supabase } from "@lib/supabaseClient";
 import { logger } from "@utils/logger";
 
-export const ADMIN_ASSET_BUCKET = "asset";
+// Must match the Supabase Storage bucket name exactly ("assets", not "asset") -
+// a mismatch makes every admin upload fail with "Bucket not found".
+export const ADMIN_ASSET_BUCKET = "assets";
 export const MAX_IMAGE_FILE_SIZE_BYTES = 10 * 1024 * 1024;
 
 const ADMIN_IMAGE_TARGETS = {
@@ -102,6 +104,37 @@ function isManagedFolderPath(storagePath) {
   );
 }
 
+// Supabase storage errors are opaque in production (logger is silent there), so
+// map the ones admins can act on to a message the dashboard can show directly.
+function describeUploadError(uploadError) {
+  const rawMessage = uploadError?.message || "";
+  const normalized = rawMessage.toLowerCase();
+
+  if (normalized.includes("bucket not found")) {
+    return `Storage bucket "${ADMIN_ASSET_BUCKET}" was not found. Ask a site admin to check the Supabase bucket name.`;
+  }
+
+  if (normalized.includes("row-level security") || normalized.includes("unauthorized")) {
+    return "You are not allowed to upload images. Your admin session may have expired — sign out, sign back in, and try again.";
+  }
+
+  if (normalized.includes("mime type")) {
+    return "That image format is not allowed. Please upload a PNG, JPG, WEBP, or SVG file.";
+  }
+
+  if (normalized.includes("exceeded") || normalized.includes("too large")) {
+    return "Image is too large for the storage bucket. Please upload a smaller file.";
+  }
+
+  if (normalized.includes("duplicate") || normalized.includes("already exists")) {
+    return "An image with that name already exists. Please rename the file and try again.";
+  }
+
+  return rawMessage
+    ? `Failed to upload image: ${rawMessage}`
+    : "Failed to upload image. Please try again.";
+}
+
 export function getAdminImageUploadTarget(entityName) {
   return ADMIN_IMAGE_TARGETS[entityName] || { folderPath: "others" };
 }
@@ -129,7 +162,7 @@ export async function uploadPublicImage({
 
   if (uploadError) {
     logger.error("Error uploading image to storage:", uploadError);
-    throw new Error("Failed to upload image. Please try again.");
+    throw new Error(describeUploadError(uploadError));
   }
 
   const { data } = supabase.storage.from(bucketName).getPublicUrl(storagePath);

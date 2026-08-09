@@ -26,8 +26,16 @@ export function toLocalInputValue(value) {
   if (!value) return "";
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return "";
-  // YYYY-MM-DDTHH:mm (browser local)
-  return d.toISOString().slice(0, 16);
+
+  // YYYY-MM-DDTHH:mm in *browser local* time. `datetime-local` inputs are
+  // read back as local time (adminUpsertEvent does `new Date(...).toISOString()`),
+  // so formatting with toISOString() here would shift the event by the UTC
+  // offset on every edit-and-save round trip.
+  const pad = (n) => String(n).padStart(2, "0");
+  return (
+    `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` +
+    `T${pad(d.getHours())}:${pad(d.getMinutes())}`
+  );
 }
 
 const EVENT_FIELDS = `
