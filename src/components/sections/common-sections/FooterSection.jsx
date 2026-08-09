@@ -75,7 +75,7 @@ export default function FooterSection() {
         <div className="flex min-w-40 flex-col items-center gap-4 md:items-start">
           <img src={assets.logo} alt="RoboTUM Logo" className="h-10" />
           <p className="max-w-xs text-sm text-white/60">
-            RoboTUM — Student Initiative at the Technical University of Munich
+            RoboTUM - Student Initiative at the Technical University of Munich
           </p>
         </div>
 
