@@ -207,11 +207,11 @@ export default function ContactUsSection() {
           <h3 className="heading text-xl mb-2">Pavel Fenskii</h3>
           <p className="text-white/80 mb-4">Head of External Relations</p>
           <a
-                    href="mailto:operations@robotum.info"
-                    className="underline hover:text-white"
-                  >
-                    operations@robotum.info
-                  </a>
+            href="mailto:operations@robotum.info"
+            className="underline hover:text-white"
+          >
+            operations@robotum.info
+          </a>
           <p className="text-white/70 text-sm">+49 1737 401924</p>
         </div>
       </div>
