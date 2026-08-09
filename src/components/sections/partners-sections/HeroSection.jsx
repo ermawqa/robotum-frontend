@@ -20,7 +20,7 @@ const HeroSection = () => {
       <img
         src={assets.heroBackground}
         alt="Partnership"
-        className="hidden md:block absolute inset-0 w-full h-full object-cover opacity-20 blur-sm pointer-events-none"
+        className="hidden md:block section-media opacity-20 blur-sm"
       />
 
       <div className="relative z-10">

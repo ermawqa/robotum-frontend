@@ -45,7 +45,7 @@ export default function ProjectDetail() {
     return (
       <>
         <Navbar />
-        <section className="surface-1 min-h-screen px-6 md:px-12 py-20 text-white flex flex-col justify-center section-dark-primary surface-pattern">
+        <section className="min-h-screen px-6 md:px-12 py-20 text-white flex flex-col justify-center section-dark-primary surface-pattern">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="heading heading-h2 mb-6">Project not found</h1>
             {errorMsg && (
@@ -71,7 +71,7 @@ export default function ProjectDetail() {
   return (
     <>
       <Navbar />
-      <section className="section-container surface-1 min-h-screen text-white font-sans surface-wrap surface-pattern py-20">
+      <section className="section-container min-h-screen text-white font-sans section-dark-primary surface-pattern py-20">
         <div className="max-w-6xl mx-auto">
           <div className="grid gap-12 md:grid-cols-2 items-start">
             <div>

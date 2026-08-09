@@ -44,7 +44,7 @@ export default function EventDetail() {
     return (
       <>
         <Navbar />
-        <section className="surface-1 min-h-screen px-6 md:px-12 py-20 text-white flex flex-col justify-center section-dark-primary surface-pattern">
+        <section className="min-h-screen px-6 md:px-12 py-20 text-white flex flex-col justify-center section-dark-primary surface-pattern">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="heading heading-h2 mb-4">
               {errorMsg || "Event not found"}
@@ -87,7 +87,7 @@ export default function EventDetail() {
   return (
     <>
       <Navbar />
-      <section className="section-container surface-1 min-h-screen text-white font-sans section-dark-primary surface-pattern py-16 md:py-20">
+      <section className="section-container min-h-screen text-white font-sans section-dark-primary surface-pattern py-16 md:py-20">
         <div className="max-w-5xl mx-auto space-y-10">
           {/* Top meta */}
           <div className="space-y-4">
