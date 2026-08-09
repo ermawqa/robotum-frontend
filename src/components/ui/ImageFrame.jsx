@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
 /**
- * ImageFrame — provides consistent, reusable styling for images across the site.
+ * ImageFrame - provides consistent, reusable styling for images across the site.
  *
  * Props:
  *  - src, alt: image source and alt text

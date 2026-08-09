@@ -1,7 +1,7 @@
 import Button from "@components/ui/Button";
 
 /**
- * MissionSection — unified with global design system
+ * MissionSection - unified with global design system
  * - Applies surface-light for contrast against dark surfaces
  * - Uses heading typography helpers (.heading)
  * - Adds balanced spacing and consistent layout rhythm
@@ -21,7 +21,7 @@ export default function MissionSection() {
           <span className="text-gradient">Foundations</span> of RoboTUM
         </h2>
 
-        {/* Content container — deliberate light feature panel for contrast */}
+        {/* Content container - deliberate light feature panel for contrast */}
         <div className="feature-panel grid grid-cols-1 gap-10 p-8 md:grid-cols-2 md:p-12">
           {/* Vision */}
           <div className="flex flex-col gap-4">

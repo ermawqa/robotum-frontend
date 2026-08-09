@@ -264,7 +264,7 @@ export default function AdminPartners() {
                       </div>
                       <p className="text-[11px] text-white/60">
                         Category: {partner.category} • Priority:{" "}
-                        {partner.priority ?? "—"}
+                        {partner.priority ?? "-"}
                       </p>
                       <p className="text-[11px] text-white/50">
                         Slug:{" "}

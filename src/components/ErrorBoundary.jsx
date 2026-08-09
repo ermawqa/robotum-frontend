@@ -29,7 +29,7 @@ export default class ErrorBoundary extends Component {
             </p>
             <h1 className="heading heading-h2 mt-3">Unexpected error</h1>
             <p className="text-text2 mt-4 text-white/70">
-              Sorry — something broke while loading this page. Please try
+              Sorry - something broke while loading this page. Please try
               reloading.
             </p>
             <div className="mt-8">

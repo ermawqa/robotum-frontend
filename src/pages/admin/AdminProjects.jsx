@@ -460,7 +460,7 @@ export default function AdminProjects() {
                   onChange={handleChange}
                   className="w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm text-white outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-accent"
                 >
-                  <option value="">— None —</option>
+                  <option value="">- None -</option>
                   {PROJECT_STATUS.map((s) => (
                     <option key={s.value} value={s.value}>
                       {s.label}

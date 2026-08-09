@@ -9,13 +9,13 @@ const steps = [
     number: 2,
     title: "Interview",
     description:
-      "If your application matches one of our open spots, we’ll invite you to a short interview. It’s a casual conversation — we just want to get to know you better!",
+      "If your application matches one of our open spots, we’ll invite you to a short interview. It’s a casual conversation - we just want to get to know you better!",
   },
   {
     number: 3,
     title: "Welcome!",
     description:
-      "If it’s a fit on both sides — welcome to the RoboTUM team! We’ll onboard you, introduce you to your project group, and get you started.",
+      "If it’s a fit on both sides - welcome to the RoboTUM team! We’ll onboard you, introduce you to your project group, and get you started.",
   },
 ];
 
@@ -37,7 +37,7 @@ const ApplicationSection = () => {
           Interested in joining RoboTUM? Great! Here’s how our application
           process works.
           <br />
-          The next application phase will open soon — stay tuned on our website
+          The next application phase will open soon - stay tuned on our website
           or social media.
         </p>
       </div>

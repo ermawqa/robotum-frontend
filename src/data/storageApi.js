@@ -115,7 +115,7 @@ function describeUploadError(uploadError) {
   }
 
   if (normalized.includes("row-level security") || normalized.includes("unauthorized")) {
-    return "You are not allowed to upload images. Your admin session may have expired — sign out, sign back in, and try again.";
+    return "You are not allowed to upload images. Your admin session may have expired - sign out, sign back in, and try again.";
   }
 
   if (normalized.includes("mime type")) {

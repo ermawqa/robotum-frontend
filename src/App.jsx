@@ -65,7 +65,7 @@ export default function App() {
           {/* later: /admin/applications, /admin/members */}
         </Route>
 
-        {/* 404 — must stay last */}
+        {/* 404 - must stay last */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

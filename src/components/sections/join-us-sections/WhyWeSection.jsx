@@ -66,7 +66,7 @@ const WhyWeSection = () => {
             skills to the state of the art.
           </p>
           <p className="text-text2 md:text-text1 text-white/80 leading-relaxed mb-8">
-            You don’t need to be an expert — just bring motivation and
+            You don’t need to be an expert - just bring motivation and
             willingness to learn. We’ll support you from day one.
           </p>
           <Button variant="primary" scrollTarget="application">

@@ -83,7 +83,7 @@ export default function ProjectSection() {
       ) : (
         <>
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-between gap-10 md:gap-16">
-            {/* LEFT — Text Info */}
+            {/* LEFT - Text Info */}
             <div className="hidden md:block w-full md:w-1/2 relative text-center md:text-left min-h-[300px]">
               <div
                 key={current}
@@ -107,7 +107,7 @@ export default function ProjectSection() {
               </div>
             </div>
 
-            {/* RIGHT — Image carousel (desktop) */}
+            {/* RIGHT - Image carousel (desktop) */}
             <div className="hidden md:flex md:w-1/2 relative flex-col items-center self-start">
               <div className="relative w-full max-w-md mx-auto -mt-6 md:-mt-10 aspect-3/2 min-h-[220px] sm:min-h-[260px]">
                 {projects.map((p, i) => (
@@ -155,7 +155,7 @@ export default function ProjectSection() {
               </div>
             </div>
 
-            {/* MOBILE — Horizontal scrollable cards */}
+            {/* MOBILE - Horizontal scrollable cards */}
             <div className="md:hidden w-full overflow-x-auto snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
               <div ref={trackRef} className="flex gap-6 min-w-full">
                 {projects.map((p) => (

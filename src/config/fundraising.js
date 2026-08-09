@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────
-// FUNDRAISING — manual values shown in the Home "Support our mission" section.
+// FUNDRAISING - manual values shown in the Home "Support our mission" section.
 //
 // TO UPDATE THE AMOUNT RAISED:
 //   1. Change `raisedAmount` below to the latest total (euros, no symbols/commas).

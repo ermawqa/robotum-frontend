@@ -453,7 +453,7 @@ export default function PrivacyPolicy() {
               <p>
                 The Owner reserves the right to make changes to this Privacy
                 Policy at any time by notifying its Users on this page, within
-                this Application, and/or—if technically and legally feasible—by
+                this Application, and/or-if technically and legally feasible-by
                 sending a notice via any contact information available to the
                 Owner. It is strongly recommended to check this page often.
               </p>

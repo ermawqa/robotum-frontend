@@ -118,7 +118,7 @@ body {
   );
 }
 
-/* Sections are shorter on mobile — scale the fade so it never swallows a
+/* Sections are shorter on mobile - scale the fade so it never swallows a
    whole section. */
 @media (max-width: 640px) {
   :root {
@@ -131,7 +131,7 @@ body {
   background-color: var(--color-canvas);
 }
 
-/* Continuous ambient field behind every page — fixed, so the colour never
+/* Continuous ambient field behind every page - fixed, so the colour never
    restarts at a section boundary the way per-section gradients used to. */
 body::before {
   content: "";
@@ -188,7 +188,7 @@ body::before {
   mask-image: var(--section-edge-fade);
 }
 
-/* Deep futuristic surface — cool light entering from the left. */
+/* Deep futuristic surface - cool light entering from the left. */
 .section-dark-primary::before {
   background:
     radial-gradient(
@@ -203,7 +203,7 @@ body::before {
     );
 }
 
-/* Secondary surface — mirrored, so alternating sections read as a rhythm. */
+/* Secondary surface - mirrored, so alternating sections read as a rhythm. */
 .section-dark-secondary::before {
   background:
     radial-gradient(
@@ -218,7 +218,7 @@ body::before {
     );
 }
 
-/* Lighter variant — brighter crown, used sparingly (e.g. Partners). */
+/* Lighter variant - brighter crown, used sparingly (e.g. Partners). */
 .section-light {
   color: #e5e7eb;
 }
@@ -286,7 +286,7 @@ body::before {
   z-index: -1;
 }
 
-/* Orb 1 — blue glow */
+/* Orb 1 - blue glow */
 .hero-orbit-bg::before {
   width: 380px; /* bigger */
   height: 380px;
@@ -296,7 +296,7 @@ body::before {
   animation: hero-orbit-left 2s ease-in-out infinite alternate; /* faster */
 }
 
-/* Orb 2 — violet glow */
+/* Orb 2 - violet glow */
 .hero-orbit-bg::after {
   width: 440px; /* bigger */
   height: 440px;
@@ -326,7 +326,7 @@ body::before {
 }
 
 /* ==========================================================================
-   HOMEPAGE HERO — "orbital lattice" backdrop
+   HOMEPAGE HERO - "orbital lattice" backdrop
    Layered: base wash → aurora blobs → masked grid → orbit rings → node
    lattice (canvas, in HeroBackground.jsx) → light sweep → vignette.
    Every layer is transform/opacity driven so it stays on the compositor.
@@ -339,7 +339,7 @@ body::before {
   z-index: 0;
 }
 
-/* Base wash — deep navy with a lift behind the logo/heading. */
+/* Base wash - deep navy with a lift behind the logo/heading. */
 .hero-bg__base {
   position: absolute;
   inset: 0;
@@ -798,7 +798,7 @@ body::before {
   @apply opacity-80 cursor-default;
 }
 
-/* Sizes — declared after the variants so size padding wins on equal specificity.
+/* Sizes - declared after the variants so size padding wins on equal specificity.
    .btn-md equals the previous default (px-6 py-3); existing md buttons unchanged. */
 .btn-sm {
   @apply px-4 py-2 text-sm;
@@ -925,7 +925,7 @@ body::before {
 }
 
 /* ==========================================================================
-   REDUCED MOTION — honor user OS preference globally.
+   REDUCED MOTION - honor user OS preference globally.
    Neutralizes hero orbs, marquee, ticker, entrance + transition animations.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {

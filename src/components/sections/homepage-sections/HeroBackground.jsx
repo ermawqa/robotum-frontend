@@ -15,7 +15,7 @@ const MAX_DPR = 2;
  * Drifting node lattice drawn on canvas: nodes connect to their neighbours and
  * to the pointer, so the backdrop reacts subtly without competing with the copy.
  *
- * Cheap by construction — it idles whenever the hero scrolls out of view or the
+ * Cheap by construction - it idles whenever the hero scrolls out of view or the
  * tab is hidden, and renders a single static frame under `prefers-reduced-motion`.
  */
 function NodeLattice() {
@@ -56,7 +56,7 @@ function NodeLattice() {
     function draw() {
       ctx.clearRect(0, 0, width, height);
 
-      // Neighbour links — opacity falls off with distance.
+      // Neighbour links - opacity falls off with distance.
       ctx.lineWidth = 1;
       for (let i = 0; i < nodes.length; i += 1) {
         const a = nodes[i];
@@ -80,7 +80,7 @@ function NodeLattice() {
         }
       }
 
-      // Pointer links — the interactive accent, brighter than neighbour links.
+      // Pointer links - the interactive accent, brighter than neighbour links.
       if (pointer.active) {
         for (const node of nodes) {
           const dx = node.x - pointer.x;
@@ -193,7 +193,7 @@ function NodeLattice() {
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(canvas);
 
-    // Idle while the hero is off-screen — this is a full-viewport canvas.
+    // Idle while the hero is off-screen - this is a full-viewport canvas.
     const intersectionObserver = new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;

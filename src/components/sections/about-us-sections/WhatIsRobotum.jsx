@@ -3,7 +3,7 @@ import Button from "@components/ui/Button";
 import ImageFrame from "@components/ui/ImageFrame";
 
 /**
- * WhatIsRobotum — About page intro section
+ * WhatIsRobotum - About page intro section
  * - Dark surface, soft gradients, balanced layout
  * - Uses design tokens from globals.css (heading, text-text1/2, surface-*)
  * - Optional illustration via props; if none provided, shows a decorative card
@@ -89,7 +89,7 @@ export default function WhatIsRobotum({ illustration }) {
           {illustration ? (
             <ImageFrame
               src={illustration}
-              alt="RoboTUM community — projects and people"
+              alt="RoboTUM community - projects and people"
               aspect="3/2"
               fit="cover"
               variant="border"

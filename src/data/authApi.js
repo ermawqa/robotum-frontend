@@ -117,7 +117,7 @@ export async function getSessionEmail() {
 
 /**
  * Subscribe to auth state changes. The callback receives the current user
- * email (or ""). Returns the subscription — call `.unsubscribe()` to clean up.
+ * email (or ""). Returns the subscription - call `.unsubscribe()` to clean up.
  */
 export function onAuthEmailChange(callback) {
   const {

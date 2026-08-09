@@ -51,42 +51,42 @@
 - Teams Enum
 
 ## God Nodes (most connected - your core abstractions)
-1. `CLAUDE.md — RoboTUM Website Guide` - 32 edges
+1. `CLAUDE.md - RoboTUM Website Guide` - 32 edges
 2. `Routes Reference` - 22 edges
-3. `AGENTS.md — Agent Working Rules` - 17 edges
+3. `AGENTS.md - Agent Working Rules` - 17 edges
 4. `uploadPublicImage()` - 9 edges
 5. `deletePublicImageByUrl()` - 9 edges
 6. `Design System Notes` - 9 edges
 7. `Architecture Overview` - 8 edges
-8. `PLAN.md — Mobile Navbar Professional Polish` - 8 edges
+8. `PLAN.md - Mobile Navbar Professional Polish` - 8 edges
 9. `AdminRoute Protected Admin Area` - 8 edges
 10. `getAdminImageUploadTarget()` - 7 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `README.md — RoboTUM Website` --semantically_similar_to--> `Routes Reference`  [INFERRED] [semantically similar]
+- `README.md - RoboTUM Website` --semantically_similar_to--> `Routes Reference`  [INFERRED] [semantically similar]
   README.md → .docs/routes.md
-- `AGENTS.md — Agent Working Rules` --semantically_similar_to--> `CLAUDE.md — RoboTUM Website Guide`  [INFERRED] [semantically similar]
+- `AGENTS.md - Agent Working Rules` --semantically_similar_to--> `CLAUDE.md - RoboTUM Website Guide`  [INFERRED] [semantically similar]
   AGENTS.md → CLAUDE.md
-- `Review UI Prompt (Codex workflow)` --references--> `AGENTS.md — Agent Working Rules`  [EXTRACTED]
+- `Review UI Prompt (Codex workflow)` --references--> `AGENTS.md - Agent Working Rules`  [EXTRACTED]
   .codex/prompts/review-ui.md → AGENTS.md
-- `CLAUDE.md — RoboTUM Website Guide` --conceptually_related_to--> `Button Variant System (primary/primary-light/secondary/secondaryStatic)`  [EXTRACTED]
+- `CLAUDE.md - RoboTUM Website Guide` --conceptually_related_to--> `Button Variant System (primary/primary-light/secondary/secondaryStatic)`  [EXTRACTED]
   CLAUDE.md → .docs/design-system.md
-- `Implement Feature Prompt (Codex workflow)` --references--> `AGENTS.md — Agent Working Rules`  [EXTRACTED]
+- `Implement Feature Prompt (Codex workflow)` --references--> `AGENTS.md - Agent Working Rules`  [EXTRACTED]
   .codex/prompts/implement-feature.md → AGENTS.md
 
 ## Import Cycles
 - None detected.
 
 ## Hyperedges (group relationships)
-- **Button Variant System spanning design-system.md, CLAUDE.md, and Button.jsx** — _docs_design_system_button_primary, _docs_design_system_button_primary_light, _docs_design_system_button_secondary, _docs_design_system_button_secondary_static, concept_button_component, claude [INFERRED 0.85]
-- **Centralized data-API-layer rule repeated across governance docs** — agents, claude, _docs_architecture, readme, concept_data_api_layer_pattern [INFERRED 0.85]
-- **Robocast-is-not-a-projects-tab rule enforced across docs** — _docs_routes, agents, claude, readme, concept_robocast_standalone_route [INFERRED 0.85]
+- **Button Variant System spanning design-system.md, CLAUDE.md, and Button.jsx** - _docs_design_system_button_primary, _docs_design_system_button_primary_light, _docs_design_system_button_secondary, _docs_design_system_button_secondary_static, concept_button_component, claude [INFERRED 0.85]
+- **Centralized data-API-layer rule repeated across governance docs** - agents, claude, _docs_architecture, readme, concept_data_api_layer_pattern [INFERRED 0.85]
+- **Robocast-is-not-a-projects-tab rule enforced across docs** - _docs_routes, agents, claude, readme, concept_robocast_standalone_route [INFERRED 0.85]
 
 ## Communities (81 total, 17 thin omitted)
 
 ### Community 0 - "Project Docs & AI Workflow Rules"
 Cohesion: 0.06
-Nodes (49): Implement Feature Prompt (Codex workflow), Architecture Overview, Architecture Core Principles, Architecture Maintenance Notes, Data Model (Supabase Schema), Data model doc must always mirror live Supabase schema (never manually rewritten), SEO Notes (empty file), AGENTS.md — Agent Working Rules (+41 more)
+Nodes (49): Implement Feature Prompt (Codex workflow), Architecture Overview, Architecture Core Principles, Architecture Maintenance Notes, Data Model (Supabase Schema), Data model doc must always mirror live Supabase schema (never manually rewritten), SEO Notes (empty file), AGENTS.md - Agent Working Rules (+41 more)
 
 ### Community 1 - "Team & Events Admin CRUD"
 Cohesion: 0.07
@@ -179,12 +179,12 @@ Nodes (3): AdminPagination(), getVisiblePages(), PAGE_SIZE_OPTIONS
 ## Knowledge Gaps
 - **142 isolated node(s):** `name`, `version`, `type`, `dev`, `build` (+137 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **17 thin communities (<3 nodes) omitted from report** - run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `CLAUDE.md — RoboTUM Website Guide` connect `Project Docs & AI Workflow Rules` to `Design System & Button Variants`?**
+- **Why does `CLAUDE.md - RoboTUM Website Guide` connect `Project Docs & AI Workflow Rules` to `Design System & Button Variants`?**
   _High betweenness centrality (0.023) - this node is a cross-community bridge._
 - **Why does `Data Model (Supabase Schema)` connect `Project Docs & AI Workflow Rules` to `Supabase Schema Core Tables`?**
   _High betweenness centrality (0.016) - this node is a cross-community bridge._
