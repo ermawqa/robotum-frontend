@@ -66,15 +66,26 @@ function resolveFileExtension(file) {
  * Without a slug we fall back to a unique name — two unrelated uploads must
  * never be able to collide on the same path.
  */
-function createStoragePath(folderPath, file, slug) {
+function createStoragePath(folderPath, file, slug, { unique = false } = {}) {
   const extension = resolveFileExtension(file);
 
   if (slug) {
-    return `${folderPath}/${sanitizeSlugSegment(slug)}.${extension}`;
+    const suffix = unique ? `-${buildUniqueId().slice(0, 8)}` : "";
+    return `${folderPath}/${sanitizeSlugSegment(slug)}${suffix}.${extension}`;
   }
 
   const baseName = sanitizeBaseName(file?.name || "image");
   return `${folderPath}/${Date.now()}-${buildUniqueId()}-${baseName}.${extension}`;
+}
+
+// Supabase reports an occupied path as a 409 / "Duplicate" resource error.
+function isDuplicatePathError(error) {
+  const message = (error?.message || "").toLowerCase();
+  return (
+    String(error?.statusCode) === "409" ||
+    message.includes("already exists") ||
+    message.includes("duplicate")
+  );
 }
 
 /**
@@ -174,17 +185,31 @@ export async function uploadPublicImage({
     throw new Error("Missing storage folder path for image upload.");
   }
 
-  const storagePath = createStoragePath(folderPath, file, slug);
-  const { error: uploadError } = await supabase
+  // Always a plain insert: `upsert` would make Supabase require UPDATE on
+  // storage.objects (even for a path that doesn't exist yet), so an admin with
+  // only an INSERT policy could not upload at all.
+  const uploadOptions = {
+    cacheControl: "3600",
+    upsert: false,
+    contentType: file.type || undefined,
+  };
+
+  let storagePath = createStoragePath(folderPath, file, slug);
+  let { error: uploadError } = await supabase
     .storage
     .from(bucketName)
-    .upload(storagePath, file, {
-      cacheControl: "3600",
-      // Slug-based paths repeat when a cover is replaced, so overwrite instead
-      // of failing with "already exists".
-      upsert: true,
-      contentType: file.type || undefined,
-    });
+    .upload(storagePath, file, uploadOptions);
+
+  // The slug already owns a file (replacing a cover). Write alongside it under
+  // a suffixed name; the caller deletes the old object once the row is saved,
+  // which frees the clean name again for next time.
+  if (uploadError && isDuplicatePathError(uploadError)) {
+    storagePath = createStoragePath(folderPath, file, slug, { unique: true });
+    ({ error: uploadError } = await supabase
+      .storage
+      .from(bucketName)
+      .upload(storagePath, file, uploadOptions));
+  }
 
   if (uploadError) {
     logger.error("Error uploading image to storage:", uploadError);
