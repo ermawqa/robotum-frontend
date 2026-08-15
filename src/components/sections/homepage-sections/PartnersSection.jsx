@@ -4,6 +4,13 @@ import { fetchActivePartners } from "@data"; // centralized data logic
 import { useAsyncData } from "@hooks/useAsyncData";
 import { formatPartnerCategory } from "@utils/formatCategory";
 
+/** Target items on screen before the loop repeats - keeps short partner lists
+ *  from leaving a visible empty stretch mid-scroll. */
+const MIN_LANE_ITEMS = 10;
+/** Seconds each logo spends crossing the lane (constant perceived speed). */
+const SECONDS_PER_ITEM = 3.2;
+const MIN_DURATION = 20;
+
 /**
  * PartnersSection
  * - All viewports: one endless animated marquee lane.
@@ -24,8 +31,13 @@ export default function PartnersSection() {
     groupTitle: formatPartnerCategory(p.category),
   }));
 
-  // Duplicate for seamless loop
-  const marqueeItems = [...allPartners, ...allPartners];
+  // Pad short lists so one copy always overflows the lane, then render that
+  // copy twice: the track is exactly 2x wide, so translateX(-50%) is seamless.
+  const repeats = allPartners.length
+    ? Math.max(1, Math.ceil(MIN_LANE_ITEMS / allPartners.length))
+    : 0;
+  const laneItems = Array.from({ length: repeats }, () => allPartners).flat();
+  const duration = Math.max(MIN_DURATION, laneItems.length * SECONDS_PER_ITEM);
 
   return (
     <section
@@ -61,41 +73,54 @@ export default function PartnersSection() {
           Partners will appear here soon.
         </p>
       ) : (
-        <div
-          className="relative w-full overflow-hidden rounded-2xl bg-white ring-1 ring-accent/15"
-          aria-live="polite"
-        >
+        <div className="relative w-full overflow-hidden rounded-2xl bg-white ring-1 ring-accent/15">
           {/* Left/Right decorative fades */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r from-white to-transparent z-20" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l from-white to-transparent z-20" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-28 bg-linear-to-r from-white via-white/80 to-transparent z-20" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-28 bg-linear-to-l from-white via-white/80 to-transparent z-20" />
 
-          {/* Marquee */}
-          <div className="whitespace-nowrap" role="list">
-            <div className="flex min-w-full items-center gap-10 sm:gap-12 py-5 px-6 animate-marquee motion-reduce:animate-none">
-              {marqueeItems.map((partner, idx) => {
-                const Wrapper = partner.website_url ? "a" : "div";
-                return (
-                  <Wrapper
-                    key={`partner-${partner.id}-${idx}`}
-                    href={partner.website_url || undefined}
-                    target={partner.website_url ? "_blank" : undefined}
-                    rel={
-                      partner.website_url ? "noopener noreferrer" : undefined
-                    }
-                    aria-label={partner.name}
-                    className="flex-none"
-                  >
-                    <img
-                      src={partner.logo_url}
-                      alt={partner.name}
-                      draggable="false"
-                      loading="lazy"
-                      className="h-8 sm:h-10 md:h-12 w-auto object-contain"
-                    />
-                  </Wrapper>
-                );
-              })}
-            </div>
+          {/* Marquee: two identical copies form one seamless track */}
+          <div
+            className="flex w-max py-5 animate-marquee motion-reduce:animate-none"
+            style={{ "--marquee-duration": `${duration}s` }}
+          >
+            {[0, 1].map((copy) => (
+              <ul
+                key={`lane-${copy}`}
+                className="flex shrink-0 items-center"
+                aria-hidden={copy === 1 || undefined}
+              >
+                {laneItems.map((partner, idx) => {
+                  const Wrapper = partner.website_url ? "a" : "div";
+                  return (
+                    <li
+                      key={`partner-${partner.id}-${idx}`}
+                      className="flex-none pr-10 sm:pr-12"
+                    >
+                      <Wrapper
+                        href={partner.website_url || undefined}
+                        target={partner.website_url ? "_blank" : undefined}
+                        rel={
+                          partner.website_url
+                            ? "noopener noreferrer"
+                            : undefined
+                        }
+                        aria-label={partner.name}
+                        tabIndex={copy === 1 ? -1 : undefined}
+                        className="marquee-item block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                      >
+                        <img
+                          src={partner.logo_url}
+                          alt={partner.name}
+                          draggable="false"
+                          loading="lazy"
+                          className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                        />
+                      </Wrapper>
+                    </li>
+                  );
+                })}
+              </ul>
+            ))}
           </div>
         </div>
       )}

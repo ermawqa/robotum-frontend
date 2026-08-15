@@ -2,6 +2,22 @@ import { Link } from "react-router-dom";
 import Button from "@components/ui/Button";
 import ImageFrame from "@components/ui/ImageFrame";
 
+const KEYWORDS = [
+  "Humanoids",
+  "ROS",
+  "Perception",
+  "Control",
+  "HRI",
+  "Startups",
+  "Workshops",
+  "Community",
+  "Open-source",
+  "Competitions",
+];
+
+/** Seconds each chip spends crossing the lane (constant perceived speed). */
+const KEYWORD_MARQUEE_DURATION = `${KEYWORDS.length * 2.6}s`;
+
 /**
  * WhatIsRobotum - About page intro section
  * - Dark surface, soft gradients, balanced layout
@@ -134,27 +150,26 @@ export default function WhatIsRobotum({ illustration }) {
         </div>
       </div>
 
-      {/* Keywords marquee (subtle) */}
-      <div className="mt-12 overflow-hidden">
-        <div className="flex items-center gap-4 animate-marquee whitespace-nowrap opacity-80">
-          {[
-            "Humanoids",
-            "ROS",
-            "Perception",
-            "Control",
-            "HRI",
-            "Startups",
-            "Workshops",
-            "Community",
-            "Open-source",
-            "Competitions",
-          ].map((k) => (
-            <span
-              key={k}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs bg-white/8 border border-white/10 mx-2"
+      {/* Keywords marquee (subtle) - two identical copies form one seamless track */}
+      <div className="mt-12 overflow-hidden marquee-mask">
+        <div
+          className="flex w-max opacity-80 animate-marquee motion-reduce:animate-none"
+          style={{ "--marquee-duration": KEYWORD_MARQUEE_DURATION }}
+        >
+          {[0, 1].map((copy) => (
+            <ul
+              key={`keywords-${copy}`}
+              className="flex shrink-0 items-center"
+              aria-hidden={copy === 1 || undefined}
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" /> {k}
-            </span>
+              {KEYWORDS.map((k) => (
+                <li key={k} className="flex-none pr-8">
+                  <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs whitespace-nowrap bg-white/8 border border-white/10">
+                    <span className="h-1.5 w-1.5 rounded-full bg-accent" /> {k}
+                  </span>
+                </li>
+              ))}
+            </ul>
           ))}
         </div>
       </div>
