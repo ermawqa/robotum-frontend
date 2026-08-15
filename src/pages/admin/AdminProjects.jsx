@@ -1,6 +1,7 @@
 // src/pages/admin/AdminProjects.jsx
 import { useCallback, useEffect, useState } from "react";
 import { logger } from "@utils/logger";
+import { formatProjectCategory } from "@utils/formatCategory";
 import AdminLayout from "@components/admin/AdminLayout";
 import Button from "@components/ui/Button";
 
@@ -8,9 +9,9 @@ import {
   adminFetchProjectsPage,
   adminUpsertProject,
   adminDeleteProject,
-  PROJECT_CATEGORIES,
-  PROJECT_STATUS,
+  ENUM_TYPES,
 } from "@data";
+import { useEnumOptions } from "@hooks/useEnumOptions";
 
 import AdminBanner from "@components/admin/AdminBanner";
 import AdminListHeader from "@components/admin/AdminListHeader";
@@ -19,11 +20,11 @@ import AdminPagination from "@components/admin/AdminPagination";
 
 const DEFAULT_PAGE_SIZE = 10;
 
-const emptyForm = () => ({
+const emptyForm = (defaultCategory = "") => ({
   id: null,
   name: "",
   slug: "",
-  category: "technical",
+  category: defaultCategory,
   summary: "",
   description: "",
   status: "",
@@ -35,6 +36,13 @@ const emptyForm = () => ({
 });
 
 export default function AdminProjects() {
+  // Dropdown values come from the Supabase enums, not from a hardcoded list.
+  const { options: categoryOptions } = useEnumOptions(
+    ENUM_TYPES.PROJECT_CATEGORY,
+  );
+  const { options: statusOptions } = useEnumOptions(ENUM_TYPES.PROJECT_STATUS);
+  const defaultCategory = categoryOptions[0]?.value ?? "";
+
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -48,7 +56,7 @@ export default function AdminProjects() {
   const [coverFile, setCoverFile] = useState(null);
   const [coverPreviewUrl, setCoverPreviewUrl] = useState("");
 
-  const [form, setForm] = useState(emptyForm());
+  const [form, setForm] = useState(() => emptyForm(defaultCategory));
 
   // ---------- Load projects ----------
   const loadProjects = useCallback(async ({ page = 1, pageSize = DEFAULT_PAGE_SIZE } = {}) => {
@@ -113,7 +121,7 @@ export default function AdminProjects() {
 
   // ---------- Helpers ----------
   const resetForm = () => {
-    setForm(emptyForm());
+    setForm(emptyForm(defaultCategory));
     setCoverFile(null);
     setCoverPreviewUrl((previous) => {
       if (previous?.startsWith("blob:")) {
@@ -137,7 +145,7 @@ export default function AdminProjects() {
       id: project.id,
       name: project.name || "",
       slug: project.slug || "",
-      category: project.category || "technical",
+      category: project.category || defaultCategory,
       summary: project.summary || "",
       description: project.description || "",
       status: project.status || "",
@@ -297,9 +305,7 @@ export default function AdminProjects() {
                         {p.name}
                       </p>
                       <span className="inline-flex items-center gap-1 rounded-full bg-white/10 border border-white/15 px-2 py-0.5 text-[11px] text-white/70 capitalize">
-                        {p.category === "innovation-and-entrepreneurship"
-                          ? "Innovation & Entrepreneurship"
-                          : p.category}
+                        {formatProjectCategory(p.category)}
                         {p.is_featured && (
                           <span className="ml-1 text-[10px] text-amber-300">
                             • featured
@@ -437,7 +443,7 @@ export default function AdminProjects() {
                   onChange={handleChange}
                   className="field-input"
                 >
-                  {PROJECT_CATEGORIES.map((c) => (
+                  {categoryOptions.map((c) => (
                     <option key={c.value} value={c.value}>
                       {c.label}
                     </option>
@@ -457,7 +463,7 @@ export default function AdminProjects() {
                   className="field-input"
                 >
                   <option value="">- None -</option>
-                  {PROJECT_STATUS.map((s) => (
+                  {statusOptions.map((s) => (
                     <option key={s.value} value={s.value}>
                       {s.label}
                     </option>

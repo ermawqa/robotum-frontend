@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import Button from "@components/ui/Button";
 import * as assets from "@assets";
+import { ENUM_TYPES } from "@data";
+import { useEnumOptions } from "@hooks/useEnumOptions";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -11,12 +13,6 @@ const NAV_LINKS = [
     label: "Projects",
     href: "/projects",
     dropdown: true,
-    subLinks: [
-      "Technical",
-      "Operations",
-      "Innovation & Entrepreneurship",
-      "Robocast",
-    ],
   },
   { label: "Events", href: "/events" },
   { label: "Partners", href: "/partners" },
@@ -24,18 +20,23 @@ const NAV_LINKS = [
   { label: "Join us", href: "/join" },
 ];
 
-const PROJECT_TABS = [
-  { label: "Technical", key: "technical", mode: "tab" },
-  { label: "Operations", key: "operations", mode: "tab" },
-  {
-    label: "Innovation & Entrepreneurship",
-    key: "innovation-and-entrepreneurship",
-    mode: "tab",
-  },
-  { label: "Robocast", key: "robocast", mode: "route", href: "/robocast" },
-];
+// Robocast is a standalone route, not a projects tab - it is appended after
+// the project_category enum values, which are loaded from Supabase.
+const ROBOCAST_TAB = {
+  label: "Robocast",
+  key: "robocast",
+  mode: "route",
+  href: "/robocast",
+};
 
-function ProjectDropdown({ open, onEnter, onLeave, onItemClick, onSelect }) {
+function ProjectDropdown({
+  open,
+  tabs,
+  onEnter,
+  onLeave,
+  onItemClick,
+  onSelect,
+}) {
   if (!open) return null;
 
   return (
@@ -45,7 +46,7 @@ function ProjectDropdown({ open, onEnter, onLeave, onItemClick, onSelect }) {
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >
-      {PROJECT_TABS.map((tab) => (
+      {tabs.map((tab) => (
         <button
           key={tab.key}
           type="button"
@@ -77,6 +78,22 @@ export default function Navbar() {
   const { hash: currentHash, pathname } = useLocation();
   const navigate = useNavigate();
 
+  // Projects dropdown = live project_category enum + the Robocast route.
+  const { options: projectCategories } = useEnumOptions(
+    ENUM_TYPES.PROJECT_CATEGORY,
+  );
+  const projectTabs = useMemo(
+    () => [
+      ...projectCategories.map(({ value, label }) => ({
+        label,
+        key: value,
+        mode: "tab",
+      })),
+      ROBOCAST_TAB,
+    ],
+    [projectCategories],
+  );
+
   /* -----------------------------------------------------------------------
    * Handlers
    * --------------------------------------------------------------------- */
@@ -107,11 +124,11 @@ export default function Navbar() {
       }
 
       // Default → projects tabs
-      const key = tab?.key || "technical";
-      navigate(`/projects?type=${key}`);
+      const key = tab?.key || projectTabs[0]?.key;
+      navigate(key ? `/projects?type=${key}` : "/projects");
       closeAllMenus();
     },
-    [navigate, closeAllMenus],
+    [navigate, closeAllMenus, projectTabs],
   );
 
   const toggleMobileMenu = () => {
@@ -302,6 +319,7 @@ export default function Navbar() {
 
                     <ProjectDropdown
                       open={isProjectsOpen}
+                      tabs={projectTabs}
                       onEnter={openProjectsDropdown}
                       onLeave={closeProjectsDropdown}
                       onItemClick={() => setIsProjectsOpen(false)}
@@ -424,7 +442,7 @@ export default function Navbar() {
       >
         <ul className="flex flex-col gap-2 pt-2">
           {NAV_LINKS.map((link) => {
-            if (link.subLinks) {
+            if (link.dropdown) {
               return (
                 <li key={link.label}>
                   <button
@@ -462,21 +480,17 @@ export default function Navbar() {
                     }`}
                   >
                     <ul className="mt-2 rounded-xl border border-white/10 bg-secondary/90 px-2.5 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
-                      {link.subLinks.map((sub) => {
-                        const tab = PROJECT_TABS.find((t) => t.label === sub);
-
-                        return (
-                          <li key={sub}>
-                            <button
-                              type="button"
-                              className={mobileSubItemBase}
-                              onClick={() => handleSelectProjects(tab)}
-                            >
-                              {sub}
-                            </button>
-                          </li>
-                        );
-                      })}
+                      {projectTabs.map((tab) => (
+                        <li key={tab.key}>
+                          <button
+                            type="button"
+                            className={mobileSubItemBase}
+                            onClick={() => handleSelectProjects(tab)}
+                          >
+                            {tab.label}
+                          </button>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </li>

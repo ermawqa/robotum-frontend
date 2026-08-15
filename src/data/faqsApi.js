@@ -2,15 +2,8 @@
 import { supabase } from "@lib/supabaseClient";
 import { logger } from "@utils/logger";
 
-export const FAQ_CATEGORIES = [
-  { value: "About RoboTUM", label: "About RoboTUM" },
-  { value: "Membership & Recruitment", label: "Membership & Recruitment" },
-  {
-    value: "Collaboration & Partnerships",
-    label: "Collaboration & Partnerships",
-  },
-  { value: "Contact", label: "Contact" },
-];
+// Category options are NOT defined here - they come from the Supabase
+// faq_category enum via `useEnumOptions`. See src/data/enumsApi.js.
 
 const FAQ_SELECT = `
   id,

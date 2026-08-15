@@ -6,21 +6,9 @@ import {
   uploadPublicImage,
 } from "./storageApi";
 
-// Enums (must match Supabase project_category & project_status)
-export const PROJECT_CATEGORIES = [
-  { value: "technical", label: "Technical" },
-  { value: "operations", label: "Operations" },
-  {
-    value: "innovation-and-entrepreneurship",
-    label: "Innovation & Entrepreneurship",
-  },
-];
-
-export const PROJECT_STATUS = [
-  { value: "active", label: "Active" },
-  { value: "paused", label: "Paused" },
-  { value: "completed", label: "Completed" },
-];
+// Category/status options are NOT defined here - they come from the Supabase
+// project_category / project_status enums via `useEnumOptions`.
+// See src/data/enumsApi.js.
 
 /**
  * Base column list for all project queries.

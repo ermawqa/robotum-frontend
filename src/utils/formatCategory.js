@@ -1,6 +1,7 @@
 // src/utils/formatCategory.js
-// Category label formatting. Partner and event categories use different
-// separators and fallbacks, so they stay as two functions.
+// Category label formatting. Enum values come from Supabase, so labels are
+// derived from the value instead of being hardcoded - a value added in the DB
+// gets a sensible label without a code change.
 
 // Title-case the first letter of each word: "next prototypes" -> "Next Prototypes".
 function titleCase(str) {
@@ -8,30 +9,50 @@ function titleCase(str) {
 }
 
 /**
- * Partner category labels (underscore-separated enum values).
- * e.g. "lead_sponsors" -> "Lead Sponsors". Empty -> "Partner".
+ * Turn any enum value into a display label.
+ *
+ * Values already written in display form (they contain a space or an uppercase
+ * letter, e.g. "Tech & Robotics", "Lead Sponsors") are returned untouched.
+ * Slug-style values are humanised: separators become spaces, a standalone
+ * "and" becomes "&", and each word is title-cased.
+ *   "lead_sponsors"                    -> "Lead Sponsors"
+ *   "tech-talk"                        -> "Tech Talk"
+ *   "innovation-and-entrepreneurship"  -> "Innovation & Entrepreneurship"
+ */
+export function formatEnumLabel(value, { fallback = "" } = {}) {
+  if (value === null || value === undefined) return fallback;
+
+  const str = String(value).trim();
+  if (!str) return fallback;
+
+  // Already human-readable - leave the DB's own wording alone.
+  if (/\s/.test(str) || /[A-Z]/.test(str)) return str;
+
+  return titleCase(
+    str
+      .toLowerCase()
+      .replace(/[-_]+/g, " ")
+      .replace(/\band\b/g, "&"),
+  );
+}
+
+/**
+ * Partner category labels. Empty -> "Partner".
  */
 export function formatPartnerCategory(category) {
-  if (!category) return "Partner";
-  return titleCase(String(category).toLowerCase().replace(/_/g, " "));
+  return formatEnumLabel(category, { fallback: "Partner" });
 }
 
 /**
- * Event category labels (hyphen-separated slugs) with a known special case.
- * e.g. "tech-talk" -> "Tech Talk". Empty -> options.fallback (default "Event").
+ * Event category labels. Empty -> options.fallback (default "Event").
  */
 export function formatEventCategory(category, { fallback = "Event" } = {}) {
-  if (!category) return fallback;
-  if (category === "innovation-and-entrepreneurship") {
-    return "Innovation & Entrepreneurship";
-  }
-  return titleCase(String(category).replace(/-/g, " "));
+  return formatEnumLabel(category, { fallback });
 }
 
 /**
- * Project categories share the event slug format and the I&E special case,
- * but fall back to "Project". e.g. "technical" -> "Technical".
+ * Project category labels. Empty -> "Project".
  */
 export function formatProjectCategory(category) {
-  return formatEventCategory(category, { fallback: "Project" });
+  return formatEnumLabel(category, { fallback: "Project" });
 }

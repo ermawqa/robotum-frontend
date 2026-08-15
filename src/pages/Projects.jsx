@@ -1,23 +1,16 @@
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { fetchProjects } from "@data"; // Supabase
+import { ENUM_TYPES, fetchProjects } from "@data"; // Supabase
 import { useAsyncData } from "@hooks/useAsyncData";
+import { useEnumOptions } from "@hooks/useEnumOptions";
 import ProjectCard from "@components/ui/ProjectCard";
 import Button from "@components/ui/Button";
 import Navbar from "@components/sections/common-sections/Navbar";
 import FooterSection from "@components/sections/common-sections/FooterSection";
 import PageLoader from "@components/sections/common-sections/PageLoader";
 
-// Top tabs (now local, no dependency on projects.js)
-// Keys MUST match Supabase `projects.category` values.
-const TABS = [
-  { key: "technical", label: "Technical" },
-  { key: "operations", label: "Operations" },
-  {
-    key: "innovation-and-entrepreneurship",
-    label: "Innovation & Entrepreneurship",
-  },
-];
+// Top tabs come from the Supabase `project_category` enum - see
+// src/data/enumsApi.js. The `?type=` query param stays the category value.
 
 // Fixed curated tag list (10 tags only)
 const CURATED_TAGS = [
@@ -45,10 +38,22 @@ export default function Projects() {
     errorMessage: "Failed to load projects. Please try again later.",
   });
 
-  // top tabs (technical, operations, innovation)
-  const initial =
-    TABS.find((t) => t.key === params.get("type"))?.key || "technical";
-  const [active, setActive] = useState(initial);
+  // top tabs, driven by the project_category enum
+  const { options: tabs, loading: tabsLoading } = useEnumOptions(
+    ENUM_TYPES.PROJECT_CATEGORY,
+  );
+
+  // Trust the URL on first render (it may point at a category that only exists
+  // in the DB yet), and fall back to the first tab when there is no param.
+  const [active, setActive] = useState(
+    () => params.get("type") || tabs[0]?.value || "",
+  );
+
+  // Once the live enum is known, drop a `?type=` that no longer exists.
+  useEffect(() => {
+    if (tabsLoading || tabs.length === 0) return;
+    if (!tabs.some((t) => t.value === active)) setActive(tabs[0].value);
+  }, [tabsLoading, tabs, active]);
 
   // search + tag filters
   const [query, setQuery] = useState(params.get("q") || "");
@@ -122,12 +127,12 @@ export default function Projects() {
 
           {/* Tabs */}
           <div className="flex flex-wrap gap-2 mb-6">
-            {TABS.map((t) => {
-              const activeTab = t.key === active;
+            {tabs.map((t) => {
+              const activeTab = t.value === active;
               return (
                 <button
-                  key={t.key}
-                  onClick={() => setActive(t.key)}
+                  key={t.value}
+                  onClick={() => setActive(t.value)}
                   className={`cursor-pointer px-4 py-2 rounded-full text-sm transition-colors duration-300 
                   ${
                     activeTab

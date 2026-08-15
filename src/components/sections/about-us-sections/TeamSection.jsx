@@ -1,16 +1,29 @@
 // src/components/sections/about/TeamSection.jsx
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import * as assets from "@assets";
 import ImageFrame from "@components/ui/ImageFrame";
 import Button from "@components/ui/Button";
-import { MEMBER_CATEGORIES, fetchTeamMembers } from "@data";
+import { ENUM_TYPES, fetchTeamMembers } from "@data";
 import { useAsyncData } from "@hooks/useAsyncData";
+import { useEnumOptions } from "@hooks/useEnumOptions";
 
 export default function TeamSection() {
+  // Categories come from the Supabase membership_type enum.
+  const { options: categoryOptions } = useEnumOptions(
+    ENUM_TYPES.MEMBERSHIP_TYPE,
+  );
+
   // default to first category
   const [selectedCategory, setSelectedCategory] = useState(
-    MEMBER_CATEGORIES[0],
+    () => categoryOptions[0]?.value ?? "",
   );
+
+  // If the enum changed in the DB, the selected tab may no longer exist.
+  useEffect(() => {
+    const exists = categoryOptions.some((o) => o.value === selectedCategory);
+    if (!exists) setSelectedCategory(categoryOptions[0]?.value ?? "");
+  }, [categoryOptions, selectedCategory]);
+
   const {
     data: teamMembers,
     loading,
@@ -42,7 +55,7 @@ export default function TeamSection() {
 
         {/* Category Buttons – no "All" */}
         <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-12">
-          {MEMBER_CATEGORIES.map((category) => {
+          {categoryOptions.map(({ value: category, label }) => {
             const active = selectedCategory === category;
             return (
               <Button
@@ -55,7 +68,7 @@ export default function TeamSection() {
                     : "bg-white/10 text-white/80 hover:bg-white/20 hover:text-white hover:scale-[1.03]"
                 }`}
               >
-                {category}
+                {label}
               </Button>
             );
           })}

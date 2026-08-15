@@ -7,8 +7,9 @@ import {
   adminFetchPartnersPage,
   adminUpsertPartner,
   adminDeletePartner,
-  PARTNER_CATEGORIES,
+  ENUM_TYPES,
 } from "@data";
+import { useEnumOptions } from "@hooks/useEnumOptions";
 
 import AdminBanner from "@components/admin/AdminBanner";
 import AdminListHeader from "@components/admin/AdminListHeader";
@@ -17,9 +18,9 @@ import AdminPagination from "@components/admin/AdminPagination";
 
 const DEFAULT_PAGE_SIZE = 10;
 
-const emptyForm = () => ({
+const emptyForm = (defaultCategory = "") => ({
   name: "",
-  category: PARTNER_CATEGORIES[0].value,
+  category: defaultCategory,
   logo_url: "",
   website_url: "",
   is_active: true,
@@ -28,6 +29,12 @@ const emptyForm = () => ({
 });
 
 export default function AdminPartners() {
+  // Dropdown values come from the Supabase partner_category enum.
+  const { options: categoryOptions } = useEnumOptions(
+    ENUM_TYPES.PARTNER_CATEGORY,
+  );
+  const defaultCategory = categoryOptions[0]?.value ?? "";
+
   const [partners, setPartners] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -42,7 +49,7 @@ export default function AdminPartners() {
   const [logoPreviewUrl, setLogoPreviewUrl] = useState("");
 
   const [editingPartner, setEditingPartner] = useState(null);
-  const [form, setForm] = useState(emptyForm());
+  const [form, setForm] = useState(() => emptyForm(defaultCategory));
 
   const loadPartners = useCallback(async ({ page = 1, pageSize = DEFAULT_PAGE_SIZE } = {}) => {
     const requestedPage = page;
@@ -103,7 +110,7 @@ export default function AdminPartners() {
 
   const startNew = () => {
     setEditingPartner(null);
-    setForm(emptyForm());
+    setForm(emptyForm(defaultCategory));
     setLogoFile(null);
     setLogoPreviewUrl((previous) => {
       if (previous?.startsWith("blob:")) {
@@ -118,7 +125,7 @@ export default function AdminPartners() {
     setSuccessMsg("");
     setForm({
       name: partner.name || "",
-      category: partner.category || PARTNER_CATEGORIES[0].value,
+      category: partner.category || defaultCategory,
       logo_url: partner.logo_url || "",
       website_url: partner.website_url || "",
       is_active: partner.is_active ?? true,
@@ -358,7 +365,7 @@ export default function AdminPartners() {
                 onChange={handleChange}
                 className="field-input"
               >
-                {PARTNER_CATEGORIES.map((cat) => (
+                {categoryOptions.map((cat) => (
                   <option key={cat.value} value={cat.value}>
                     {cat.label}
                   </option>

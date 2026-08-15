@@ -1,13 +1,19 @@
 import { supabase } from "@lib/supabaseClient";
 import { logger } from "@utils/logger";
+import { ENUM_TYPES, fetchEnumOptions } from "./enumsApi";
 
-// These must match your enum labels in public.membership_type
-export const MEMBER_CATEGORIES = [
-  "Founders",
-  "Department Heads",
-  "Project Leads",
-  // "Seniors",
-];
+// The team grid shows a curated subset of the public.membership_type enum -
+// see ENUM_ALLOWLIST in enumsApi.js to change which values appear.
+
+/**
+ * Turn a membership_type label into a per-person role label:
+ * "Project Leads" -> "Project Lead". Values that are not plural are left
+ * alone, so new enum values get a sensible label without a code change.
+ */
+function toRoleLabel(membershipType) {
+  if (!membershipType) return "Member";
+  return String(membershipType).replace(/s$/, "");
+}
 
 /**
  * Fetch team members for About page
@@ -15,6 +21,10 @@ export const MEMBER_CATEGORIES = [
  * - Adds projects for Project Leads from projects.project_lead_id
  */
 export async function fetchTeamMembers() {
+  // 0) Live membership types from the DB enum (falls back to enumsApi defaults)
+  const categoryOptions = await fetchEnumOptions(ENUM_TYPES.MEMBERSHIP_TYPE);
+  const categories = categoryOptions.map((option) => option.value);
+
   // 1) Get memberships + linked member info
   const { data: rows, error } = await supabase
     .from("member_memberships")
@@ -29,7 +39,7 @@ export async function fetchTeamMembers() {
       )
     `,
     )
-    .in("membership_type", MEMBER_CATEGORIES); // only the 3 categories we care about
+    .in("membership_type", categories); // only the categories we display
 
   if (error) {
     logger.error("Error fetching member memberships:", error);
@@ -47,23 +57,14 @@ export async function fetchTeamMembers() {
       const m = row.member;
       const membershipType = row.membership_type;
 
-      const roleLabel =
-        membershipType === "Founders"
-          ? "Founder"
-          : membershipType === "Department Heads"
-            ? "Department Head"
-            : membershipType === "Project Leads"
-              ? "Project Lead"
-              : // : membershipType === "Seniors"
-                //   ? "Senior"
-                membershipType;
+      const roleLabel = toRoleLabel(membershipType);
 
       return {
         id: m.id,
         name: m.full_name,
         photo: m.avatar_url,
         linkedin: m.linkedin_url,
-        category: membershipType, // "Founders" | "Department Heads" | "Project Leads" | "Seniors"
+        category: membershipType, // a public.membership_type enum label
         role: roleLabel,
         projects: [], // filled below for project leads
       };

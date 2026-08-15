@@ -1,26 +1,42 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import * as assets from "@assets";
 import Button from "@components/ui/Button";
 import ImageFrame from "@components/ui/ImageFrame";
-import { EVENT_CATEGORY_OPTIONS, fetchEvents } from "@data";
+import { ENUM_TYPES, fetchEvents } from "@data";
 import { formatEventDateRange } from "@utils/date-range";
 import { useAsyncData } from "@hooks/useAsyncData";
-
-// Map UI labels → DB event.category values (from EVENT_CATEGORY_OPTIONS)
-const normalizeCategory = (label) => {
-  if (!label || label === "All") return "All";
-
-  const match = EVENT_CATEGORY_OPTIONS.find(
-    (opt) => opt.label === label || opt.value === label,
-  );
-
-  // fall back to label if no match (defensive)
-  return match?.value || label;
-};
+import { useEnumOptions } from "@hooks/useEnumOptions";
 
 export default function EventsSection() {
+  // Category chips come from the Supabase event_category enum.
+  const { options: categoryOptions } = useEnumOptions(
+    ENUM_TYPES.EVENT_CATEGORY,
+  );
+
   const [activeCategory, setActiveCategory] = useState("All");
+
+  // Map a chip label back to the DB event.category value.
+  const normalizeCategory = useCallback(
+    (label) => {
+      if (!label || label === "All") return "All";
+      const match = categoryOptions.find(
+        (opt) => opt.label === label || opt.value === label,
+      );
+      // fall back to label if no match (defensive)
+      return match?.value || label;
+    },
+    [categoryOptions],
+  );
+
+  // If the enum changed in the DB, drop a chip selection that no longer exists.
+  useEffect(() => {
+    if (activeCategory === "All") return;
+    const stillExists = categoryOptions.some(
+      (opt) => opt.label === activeCategory || opt.value === activeCategory,
+    );
+    if (!stillExists) setActiveCategory("All");
+  }, [categoryOptions, activeCategory]);
   const [timeframe, setTimeframe] = useState("All"); // 'All' | 'Upcoming' | 'Past'
   const {
     data: events,
@@ -87,7 +103,7 @@ export default function EventsSection() {
       filteredEvents: [...upcoming, ...past],
       counts: countsAll,
     };
-  }, [activeCategory, timeframe, events]);
+  }, [activeCategory, timeframe, events, normalizeCategory]);
 
   // Reusable card (desktop + mobile)
   const EventCard = ({ event }) => {
@@ -208,33 +224,31 @@ export default function EventsSection() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3">
           {/* Category chips */}
           <div className="flex flex-wrap gap-2 sm:gap-3">
-            {["All", ...EVENT_CATEGORY_OPTIONS.map((opt) => opt.label)].map(
-              (cat) => {
-                const active = activeCategory === cat;
-                const singular = normalizeCategory(cat);
-                const countLabel =
-                  singular === "All" ? undefined : counts[singular] || 0;
+            {["All", ...categoryOptions.map((opt) => opt.label)].map((cat) => {
+              const active = activeCategory === cat;
+              const singular = normalizeCategory(cat);
+              const countLabel =
+                singular === "All" ? undefined : counts[singular] || 0;
 
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`cursor-pointer px-5 py-2 text-sm md:text-base font-medium rounded-full transition-all duration-300 border ${
-                      active
-                        ? "bg-accent text-white border-accent shadow-[0_0_15px_rgba(59,130,246,0.4)] scale-[1.03]"
-                        : "bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/40"
-                    }`}
-                  >
-                    {cat}
-                    {typeof countLabel === "number" && singular !== "All" && (
-                      <span className="ml-2 inline-flex items-center justify-center rounded-full bg-white/10 px-2 py-0.5 text-[11px]">
-                        {countLabel}
-                      </span>
-                    )}
-                  </button>
-                );
-              },
-            )}
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`cursor-pointer px-5 py-2 text-sm md:text-base font-medium rounded-full transition-all duration-300 border ${
+                    active
+                      ? "bg-accent text-white border-accent shadow-[0_0_15px_rgba(59,130,246,0.4)] scale-[1.03]"
+                      : "bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/40"
+                  }`}
+                >
+                  {cat}
+                  {typeof countLabel === "number" && singular !== "All" && (
+                    <span className="ml-2 inline-flex items-center justify-center rounded-full bg-white/10 px-2 py-0.5 text-[11px]">
+                      {countLabel}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* Timeframe segmented control */}

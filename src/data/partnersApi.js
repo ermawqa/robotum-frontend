@@ -7,13 +7,8 @@ import {
   uploadPublicImage,
 } from "./storageApi";
 
-// ⚠️ MUST match your partner_category enum values in Supabase
-export const PARTNER_CATEGORIES = [
-  { value: "Lead Sponsors", label: "Lead Sponsors" },
-  { value: "Sponsors", label: "Sponsors" },
-  { value: "Industry Collaborators", label: "Industry Collaborators" },
-  { value: "Academic Collaborators", label: "Academic Collaborators" },
-];
+// Category options are NOT defined here - they come from the Supabase
+// partner_category enum via `useEnumOptions`. See src/data/enumsApi.js.
 
 const PARTNER_FIELDS = `
   id,
@@ -145,7 +140,11 @@ export async function adminUpsertPartner(partner) {
       throw error;
     }
 
-    if (partner.imageFile && previousLogoUrl && previousLogoUrl !== finalLogoUrl) {
+    if (
+      partner.imageFile &&
+      previousLogoUrl &&
+      previousLogoUrl !== finalLogoUrl
+    ) {
       await deletePublicImageByUrl({
         publicUrl: previousLogoUrl,
         exceptStoragePath: uploadedStoragePath,

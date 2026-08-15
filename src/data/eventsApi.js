@@ -7,19 +7,9 @@ import {
   uploadPublicImage,
 } from "./storageApi";
 
-// Adjust these to match your Supabase enums
-export const EVENT_CATEGORY_OPTIONS = [
-  { value: "Workshop", label: "Workshop" },
-  { value: "Tech & Robotics", label: "Tech & Robotics" },
-  { value: "Social & Community", label: "Social & Community" },
-  { value: "Hackathon", label: "Hackathon" },
-  { value: "Info & Orientation", label: "Info & Orientation" },
-];
-
-export const EVENT_FORMAT_OPTIONS = [
-  { value: "Offline", label: "Offline" },
-  { value: "Online", label: "Online" },
-];
+// Category/format options are NOT defined here - they come from the Supabase
+// event_category / event_format enums via `useEnumOptions`.
+// See src/data/enumsApi.js.
 
 // helper to convert ISO (or timestamptz string) -> datetime-local value
 export function toLocalInputValue(value) {
@@ -218,7 +208,11 @@ export async function adminUpsertEvent(event) {
       throw error;
     }
 
-    if (event.imageFile && previousCoverUrl && previousCoverUrl !== finalCoverUrl) {
+    if (
+      event.imageFile &&
+      previousCoverUrl &&
+      previousCoverUrl !== finalCoverUrl
+    ) {
       await deletePublicImageByUrl({
         publicUrl: previousCoverUrl,
         exceptStoragePath: uploadedStoragePath,

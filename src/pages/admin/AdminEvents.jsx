@@ -7,10 +7,10 @@ import {
   adminFetchEventsPage,
   adminUpsertEvent,
   adminDeleteEvent,
-  EVENT_CATEGORY_OPTIONS,
-  EVENT_FORMAT_OPTIONS,
+  ENUM_TYPES,
   toLocalInputValue,
 } from "@data";
+import { useEnumOptions } from "@hooks/useEnumOptions";
 
 import AdminBanner from "@components/admin/AdminBanner";
 import AdminListHeader from "@components/admin/AdminListHeader";
@@ -21,11 +21,11 @@ import { formatEventDateRange } from "@utils/date-range";
 
 const DEFAULT_PAGE_SIZE = 10;
 
-const emptyForm = () => ({
+const emptyForm = ({ category = "", format = "" } = {}) => ({
   title: "",
   slug: "",
-  category: EVENT_CATEGORY_OPTIONS[0].value,
-  format: EVENT_FORMAT_OPTIONS[0].value,
+  category,
+  format,
   start_at: "",
   end_at: "",
   location_name: "",
@@ -38,6 +38,16 @@ const emptyForm = () => ({
 });
 
 export default function AdminEvents() {
+  // Dropdown values come from the Supabase event_category / event_format enums.
+  const { options: categoryOptions } = useEnumOptions(
+    ENUM_TYPES.EVENT_CATEGORY,
+  );
+  const { options: formatOptions } = useEnumOptions(ENUM_TYPES.EVENT_FORMAT);
+  const enumDefaults = {
+    category: categoryOptions[0]?.value ?? "",
+    format: formatOptions[0]?.value ?? "",
+  };
+
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -52,7 +62,7 @@ export default function AdminEvents() {
   const [coverPreviewUrl, setCoverPreviewUrl] = useState("");
 
   const [editing, setEditing] = useState(null); // null = new
-  const [form, setForm] = useState(emptyForm());
+  const [form, setForm] = useState(() => emptyForm(enumDefaults));
 
   // Load events
   const loadEvents = useCallback(async ({ page = 1, pageSize = DEFAULT_PAGE_SIZE } = {}) => {
@@ -118,7 +128,7 @@ export default function AdminEvents() {
 
   const resetForm = () => {
     setEditing(null);
-    setForm(emptyForm());
+    setForm(emptyForm(enumDefaults));
     setCoverFile(null);
     setCoverPreviewUrl((previous) => {
       if (previous?.startsWith("blob:")) {
@@ -136,8 +146,8 @@ export default function AdminEvents() {
     setForm({
       title: ev.title || "",
       slug: ev.slug || "",
-      category: ev.category || EVENT_CATEGORY_OPTIONS[0].value,
-      format: ev.format || EVENT_FORMAT_OPTIONS[0].value,
+      category: ev.category || enumDefaults.category,
+      format: ev.format || enumDefaults.format,
       start_at: toLocalInputValue(ev.start_at),
       end_at: toLocalInputValue(ev.end_at),
       location_name: ev.location_name || "",
@@ -399,7 +409,7 @@ export default function AdminEvents() {
                   onChange={handleChange}
                   className="field-input"
                 >
-                  {EVENT_CATEGORY_OPTIONS.map((opt) => (
+                  {categoryOptions.map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>
@@ -419,7 +429,7 @@ export default function AdminEvents() {
                   onChange={handleChange}
                   className="field-input"
                 >
-                  {EVENT_FORMAT_OPTIONS.map((opt) => (
+                  {formatOptions.map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>

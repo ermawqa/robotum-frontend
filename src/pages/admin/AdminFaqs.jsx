@@ -7,8 +7,9 @@ import {
   adminFetchFaqsPage,
   adminUpsertFaq,
   adminDeleteFaq,
-  FAQ_CATEGORIES,
+  ENUM_TYPES,
 } from "@data";
+import { useEnumOptions } from "@hooks/useEnumOptions";
 import AdminBanner from "@components/admin/AdminBanner";
 import AdminListHeader from "@components/admin/AdminListHeader";
 import AdminSideCard from "@components/admin/AdminSideCard";
@@ -17,6 +18,10 @@ import AdminPagination from "@components/admin/AdminPagination";
 const DEFAULT_PAGE_SIZE = 10;
 
 export default function AdminFaqs() {
+  // Dropdown values come from the Supabase faq_category enum.
+  const { options: categoryOptions } = useEnumOptions(ENUM_TYPES.FAQ_CATEGORY);
+  const defaultCategory = categoryOptions[0]?.value ?? "";
+
   const [faqs, setFaqs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -32,7 +37,7 @@ export default function AdminFaqs() {
   const [form, setForm] = useState({
     question: "",
     answer: "",
-    category: FAQ_CATEGORIES[0].value,
+    category: defaultCategory,
   });
 
   const loadFaqs = useCallback(async ({ page = 1, pageSize = DEFAULT_PAGE_SIZE } = {}) => {
@@ -88,7 +93,7 @@ export default function AdminFaqs() {
     setForm({
       question: "",
       answer: "",
-      category: FAQ_CATEGORIES[0].value,
+      category: defaultCategory,
     });
   };
 
@@ -97,7 +102,7 @@ export default function AdminFaqs() {
     setForm({
       question: faq.question || "",
       answer: faq.answer || "",
-      category: faq.category || FAQ_CATEGORIES[0].value,
+      category: faq.category || defaultCategory,
     });
   };
 
@@ -282,7 +287,7 @@ export default function AdminFaqs() {
                 onChange={handleChange}
                 className="field-input"
               >
-                {FAQ_CATEGORIES.map((cat) => (
+                {categoryOptions.map((cat) => (
                   <option key={cat.value} value={cat.value}>
                     {cat.label}
                   </option>
