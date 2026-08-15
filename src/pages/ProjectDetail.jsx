@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { fetchProjectBySlug } from "@data";
 import ImageFrame from "@components/ui/ImageFrame";
 import Button from "@components/ui/Button";
+import LinkifiedText from "@components/ui/LinkifiedText";
 import Navbar from "@components/sections/common-sections/Navbar";
 import FooterSection from "@components/sections/common-sections/FooterSection";
 import PageLoader from "@components/sections/common-sections/PageLoader";
@@ -90,9 +91,11 @@ export default function ProjectDetail() {
               <span className="inline-block px-4 py-1 rounded-full text-xs md:text-sm bg-white/10 border border-white/10 mb-6 capitalize">
                 {formattedCategory}
               </span>
-              <p className="text-text1 text-white/80 mb-8 leading-relaxed text-base md:text-lg">
-                {project.description || project.summary}
-              </p>
+              <LinkifiedText
+                as="p"
+                text={project.description || project.summary}
+                className="text-text1 text-white/80 mb-8 leading-relaxed text-base md:text-lg whitespace-pre-line"
+              />
               <div className="flex flex-wrap gap-3 mb-8">
                 {project.tags?.map((t) => (
                   <span
