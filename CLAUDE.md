@@ -30,15 +30,16 @@ src/
   styles/globals.css    # @theme tokens, surfaces, buttons, utilities, animations - design SoT
   lib/supabaseClient.js # the ONLY place Supabase is constructed
   data/                 # API layer: *Api.js + index.js barrel (import from "@data")
-  hooks/                # useAsyncData (shared fetch state)
+  hooks/                # useAsyncData (shared fetch state), useEnumOptions (DB enums)
   utils/                # formatCategory, logger, date-range, scrollToSection
   components/
-    ui/                 # Button, ImageFrame, ProjectCard, PartnerLogo, ScrollToHashElement
-    admin/              # AdminLayout, AdminRoute, AdminListHeader, AdminPagination, AdminErrorBanner, AdminSideCard
+    ui/                 # Button, ImageFrame, ProjectCard, PartnerLogo, LinkifiedText, ScrollToHashElement
+    admin/              # AdminLayout, AdminRoute, AdminListHeader, AdminPagination, AdminBanner, AdminSideCard
     sections/
       common-sections/  # Navbar, FooterSection, PageLoader, SectionLoader, NewsTicker
       <page>-sections/  # homepage-, about-us-, events-, join-us-, partners-, faqs- sections
   pages/                # one file per route (+ pages/admin/*)
+supabase/migrations/    # SQL applied by hand in the Supabase SQL editor (no CLI)
 ```
 Path aliases (`vite.config.js` + `jsconfig.json`): `@ @assets @components @pages @styles @utils @data @lib @hooks @config`. Use `@components/...` (not `@/components/...`).
 
@@ -49,11 +50,12 @@ Path aliases (`vite.config.js` + `jsconfig.json`): `@ @assets @components @pages
 - Normalize/shape data inside the API layer; select only needed fields (e.g. `FAQ_SELECT`), not `*`.
 - Always handle `null`/`undefined`/empty defensively (`data ?? []`). Never blank UI on error.
 - Use the `useAsyncData(asyncFn, deps, { errorMessage })` hook for fetch+loading+error in components.
+- **Never hardcode Postgres enum values** (categories, statuses, formats). They load at runtime from the `get_enum_values` RPC - use `useEnumOptions(ENUM_TYPES.X)` for `[{value,label}]`. Labels are derived by `formatEnumLabel`, so a new DB value needs no code change. `src/data/enumsApi.js` holds the enum names, the fallbacks used before/if the fetch fails, and `ENUM_ALLOWLIST`.
 - Supabase Storage is CDN-cached: upload via `storageApi.js` (unique filenames), never overwrite same URL.
 - Before debugging "missing data", check the query shape **and** RLS policies (public read must be explicitly allowed).
 
 ## Routing constraints (don't break)
-- Projects use query params: `/projects?type=technical|operations|innovation-and-entrepreneurship` (+ `?q=`, `?tag=`). The Navbar projects dropdown depends on this - preserve it.
+- Projects use query params: `/projects?type=<project_category value>` (+ `?q=`, `?tag=`), currently `technical|operations|innovation-and-entrepreneurship` but driven by the DB enum. The Navbar projects dropdown depends on this - preserve it.
 - `/robocast` is a **separate page**, NOT a projects tab.
 - All routes must work on direct nav AND reload (deep links: `/events/:slug`, `/projects/:slug`).
 - Use `<Link>` for internal nav, not `<a>`.
@@ -78,4 +80,8 @@ Tokens + reusable classes live in `src/styles/globals.css`. **Use them; don't ha
 
 ## Watch-outs
 - `.surface-1/.surface-2/.surface-light` are hand-written gradient classes - don't create `@theme` colors with those names (collision).
+- Prettier is installed but there is no config file, no `format` script, and the repo is not uniformly formatted (several `pages/admin/*` files aren't). Don't run a blanket `prettier --write` - it reformats untouched code and buries the real diff.
 - Admin auth bugs lock people out: after touching `authApi.js` / `AdminRoute` / `AdminLogin` / `AdminLayout`, manually verify login (admin in, non-admin bounced+signed-out, authed reload, logout).
+- Postgres cannot delete an enum value, only add and rename. `ADD VALUE ... BEFORE/AFTER` controls the order the site renders tabs/dropdowns in; `RENAME VALUE` updates existing rows automatically.
+- `membership_type` is filtered by `ENUM_ALLOWLIST` (enumsApi.js): the enum contains Juniors/Seniors, but the About team grid deliberately shows only Founders / Department Heads / Project Leads. Adding a value there will NOT appear until the allowlist is changed.
+- Admin form defaults use `options[0]` (the enum's first value). `event_format` is declared Online-then-Offline, so new events default to Online.
